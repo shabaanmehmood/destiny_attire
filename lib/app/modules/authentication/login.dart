@@ -215,7 +215,7 @@ class LoginScreen extends StatelessWidget {
     GlobalWidgets.showProgressLoader("Validating Data");
 
     final QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-        .collection('admins')
+        .collection('users')
         .where('email', isEqualTo: email)
         .where('password', isEqualTo: password)
         .limit(1)

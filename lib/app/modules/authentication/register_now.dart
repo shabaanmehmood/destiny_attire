@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../routes/app_pages.dart';
 import '../../utils/colors.dart';
 import '../../utils/global_widgets.dart';
@@ -28,24 +29,6 @@ class RegisterNowState extends State<RegisterNow> {
   TextEditingController mobileCtl = new TextEditingController();
   TextEditingController emailCtl = new TextEditingController();
   TextEditingController passwordCtl = new TextEditingController();
- addUser(BuildContext context) async{
-    Map<String, dynamic> productInfo = Map();
-
-    productInfo['cut_price'] = mobileCtl.text.trim().toString();
-    productInfo['discount'] = '0';
-    productInfo['is_available'] = '1';
-    productInfo['is_featured'] = '0';
-    productInfo['long_description'] = addressCtl.text.trim().toString();
-    productInfo['product_name'] = fullNameCtl.text.trim().toString();
-    productInfo['sale_price'] = emailCtl.text.trim().toString();
-    productInfo['short_description'] = cityCtl.text.trim().toString();
-    var collection = FirebaseFirestore.instance.collection('products');
-    var docRef = await collection.add(productInfo);
-    var documentId = docRef.id;
-    GlobalWidgets.hideProgressLoader();
-    successDialog(documentId,context);
-
-  }
   successDialog(String signUpResponse, BuildContext context) {
     // String id = '';
     // if(signUpResponse.toString().contains('Data Submitted')){
@@ -70,7 +53,7 @@ class RegisterNowState extends State<RegisterNow> {
         showCloseIcon: true,
         title: '${signUpResponse} \n Product ID',
         desc:
-        'Product Added successfully',// \n Save or remember ID to Log In' ,
+        'Account Created successfully',// \n Save or remember ID to Log In' ,
         btnOkOnPress: () {
           debugPrint('OnClcik');
           Get.back();
@@ -125,10 +108,8 @@ class RegisterNowState extends State<RegisterNow> {
             myTextField(TextInputType.emailAddress, emailCtl, false, "Your Email" ),
             myText(context, 'Password', ColorsX.black, 20, 10, 0, 0, FontWeight.w700, 20),
             myTextField(TextInputType.text, passwordCtl, true, "Your Password" ),
-            SizedBox(
-              height: 40,
-            ),
-            addProductButton(context),
+            SizedBox(height: 40,),
+            addUserButton(context),
             SizedBox(
               height: 40,
             ),
@@ -139,32 +120,51 @@ class RegisterNowState extends State<RegisterNow> {
   }
 
 
-  addProductButton(BuildContext context,){
+  addUserButton(BuildContext context,){
     return GestureDetector(
-      onTap: (){
+      onTap: () async {
         if(mobileCtl.text.trim().isEmpty){
           GlobalWidgets.showErrorToast(
-              context, "Cut Price required", 'Please provide price before discount to show as cut prive');
+              context, "Mobile Number required", 'Please provide mobile number');
+        }
+        else if(mobileCtl.text.length<11){
+          GlobalWidgets.showErrorToast(
+              context, "Mobile Number Not valid", 'Please provide valid mobile number');
         }
         else if(emailCtl.text.trim().isEmpty){
           GlobalWidgets.showErrorToast(
-              context, "Sale price required", 'Please provide price to sale after discount');
+              context, "Email required", 'Please provide your email address');
         }
         else if(cityCtl.text.trim().isEmpty){
           GlobalWidgets.showErrorToast(
-              context, "Short Description required", 'Please provide short description');
+              context, "City required", 'Please provide your city');
         }
         else if(addressCtl.text.trim().isEmpty){
           GlobalWidgets.showErrorToast(
-              context, "Long Description required", 'Please provide long description');
+              context, "Address required", 'Please provide address');
         }
         else if(fullNameCtl.text.trim().isEmpty){
           GlobalWidgets.showErrorToast(
-              context, "Product name required", 'Please provide product name');
+              context, "Full name required", 'Please provide full name');
+        }
+        else if(passwordCtl.text.trim().isEmpty){
+          GlobalWidgets.showErrorToast(
+              context, "Password required", 'Please provide password');
         }
         else{
           GlobalWidgets.hideKeyboard(context);
-          addUser(context);
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+
+          Map<String, dynamic> userInfo = Map();
+          userInfo['token'] = prefs.getString('token');
+          userInfo['address'] = addressCtl.text.trim().toString();
+          userInfo['city'] = cityCtl.text.trim().toString();
+          userInfo['email'] = emailCtl.text.trim().toString();
+          userInfo['password'] = passwordCtl.text.trim().toString();
+          userInfo['full_name'] = fullNameCtl.text.trim().toString();
+          userInfo['mobile'] = mobileCtl.text.trim().toString();
+          print(userInfo);
+          checkIfEmailExists(emailCtl.text.trim().toString(), userInfo, context);
         }
       },
       child: Container(
@@ -185,6 +185,36 @@ class RegisterNowState extends State<RegisterNow> {
     );
   }
 
+  Future<String> checkIfEmailExists(String email, Map<String, dynamic> userInfo, BuildContext context) async {
+    // Get docs from collection reference
+    String response = '';
+    GlobalWidgets.showProgressLoader("Validating Data");
+
+    final QuerySnapshot result = await FirebaseFirestore.instance
+        .collection('users')
+        .where('email', isEqualTo: email)
+    // .limit(1)
+        .get();
+    final List<DocumentSnapshot> documents = result.docs;
+    if(documents.isEmpty) {
+      response = 'ok';
+
+      // final res = await _apiService.userSignUp(apiParams: userInfo);
+      var collection = FirebaseFirestore.instance.collection('users');
+      var docRef = await collection.add(userInfo);
+      var documentId = docRef.id;
+      GlobalWidgets.hideProgressLoader();
+      print('created');
+      Get.toNamed(Routes.MAIN_SCREEN);
+    }
+    else {
+      print(documents.first);
+      response = 'no';
+      GlobalWidgets.hideProgressLoader();
+      errorDialog(context, 'Failed', 'Something went wrong please try again.');
+    }
+    return response;
+  }
   myText(BuildContext context, String text, Color colorsX, double top, double left, double right, double bottom,
       FontWeight fontWeight, double fontSize){
     return Container(
@@ -207,7 +237,7 @@ class RegisterNowState extends State<RegisterNow> {
         keyboardType: inputType,
         controller: ctl,
         obscureText: obscureText,
-        style: TextStyle(color: ColorsX.black.withOpacity(0.4)),
+        style: TextStyle(color: ColorsX.black),
         decoration: new InputDecoration(
             border: InputBorder.none,
             focusedBorder: InputBorder.none,

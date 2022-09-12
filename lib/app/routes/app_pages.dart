@@ -1,5 +1,6 @@
 
 import 'package:destiny_attire/app/modules/authentication/register_now.dart';
+import 'package:destiny_attire/app/modules/main_screen/main_page.dart';
 import 'package:get/get.dart';
 
 import '../modules/authentication/login.dart';
@@ -28,11 +29,11 @@ class AppPages {
       page: () => LoginScreen(),
       // binding: LoginBinding(),
     ),
-    // GetPage(
-    //   name: _Paths.MAIN_SCREEN,
-    //   page: () => MainScreen(),
-    //   // binding: LoginBinding(),
-    // ),
+    GetPage(
+      name: _Paths.MAIN_SCREEN,
+      page: () => MainScreen(),
+      // binding: LoginBinding(),
+    ),
     // GetPage(
     //   name: _Paths.NEW_CATEGORY,
     //   page: () => NewCategory(),
