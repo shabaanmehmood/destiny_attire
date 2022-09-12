@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.untitled">
+    package="com.epopiah.destiny_attire">
    <application
         android:label="Destiny Atttire"
         android:name="${applicationName}"

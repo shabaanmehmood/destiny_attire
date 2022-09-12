@@ -1,4 +1,4 @@
-package com.example.untitled
+package com.epopiah.destiny_attire
 
 import io.flutter.embedding.android.FlutterActivity
 
