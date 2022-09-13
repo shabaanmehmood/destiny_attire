@@ -31,14 +31,14 @@ class _MainScreenState extends State<MainScreen> {
   String selectedCasteType = '';
   // FeaturedModel? featuredModel;
   List<DocumentSnapshot> documents = [];
+  List<DocumentSnapshot> featuredProducts = [];
   String? gender = '';
   SharedPreferences? prefs;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    // getValues();
-    // getFeaturedProposals();
+    loadFeaturedProducts();
   }
   @override
   Widget build(BuildContext context) {
@@ -75,7 +75,7 @@ class _MainScreenState extends State<MainScreen> {
             width: SizeConfig.screenWidth,
             decoration: BoxDecoration(
               // color:  const Color(0xff70b4ff).withOpacity(0.8),
-              color:  const Color(0xff000000).withOpacity(0.8),
+              color:  const Color(0xffEEEEEE).withOpacity(0.8),
             ),
           ),
           listViewContent(context),
@@ -92,18 +92,175 @@ class _MainScreenState extends State<MainScreen> {
           // profession(context),
           // featuredModel == null ? Container() : FeaturedProposals(featuredModel: featuredModel),
           // documents.isEmpty ? Container() : FeaturedProposals(documents: documents,),
-          globalWidgets.myText(context, 'Professions', ColorsX.yellowColor, 20, 10, 0, 0, FontWeight.w700, 20),
-          globalWidgets.myText(context, 'Matches available for theses professions', ColorsX.white, 0, 10, 0, 0, FontWeight.w400, 13),
+          Align(
+            alignment: Alignment.center,
+            child: Container(
+                margin: EdgeInsets.only(top: SizeConfig.screenHeight * .02),
+                child: Image.asset('assets/images/logo.png', height: 80, width: 80,)),
+          ),
+          globalWidgets.myText(context, 'Featured', ColorsX.black, 20, 10, 0, 0, FontWeight.w700, 23),
+          // globalWidgets.myText(context, 'Matches available for theses professions', ColorsX.white, 0, 10, 0, 0, FontWeight.w400, 13),
+          // // castes(context,),
+          // peofessions(context,),
+          // globalWidgets.myText(context, 'Castes', ColorsX.yellowColor, 20, 10, 0, 0, FontWeight.w700, 20),
+          // globalWidgets.myText(context, 'Matches available for theses castes', ColorsX.white, 0, 10, 0, 0, FontWeight.w400, 13),
           // castes(context,),
-          peofessions(context,),
-          globalWidgets.myText(context, 'Castes', ColorsX.yellowColor, 20, 10, 0, 0, FontWeight.w700, 20),
-          globalWidgets.myText(context, 'Matches available for theses castes', ColorsX.white, 0, 10, 0, 0, FontWeight.w400, 13),
-          castes(context,),
         ],
       ),
     );
   }
 
+  void loadFeaturedProducts() async{
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+
+    GlobalWidgets.showProgressLoader("Please wait");
+
+    final QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('products')
+        .where('is_featured', isEqualTo: '1')
+        .where('is_available', isEqualTo: '1')
+    // .limit(1)
+        .get();
+    final List<DocumentSnapshot> firestoreResponseList = querySnapshot.docs;
+    if(firestoreResponseList.isEmpty) {
+      debugPrint('no featured and not available');
+    }
+    else {
+      setState(() {
+        featuredProducts = querySnapshot.docs;
+        // GlobalVariables.featuredModelLength = documentsByCastes.length ?? 0;
+        // GlobalVariables.featuredModelLength = featuredModel?.serverResponse.length ?? 0;
+        print('featured length' + featuredProducts.length.toString());
+      });
+      // print(documents.first);
+      //
+      // String id = querySnapshot.docs[0].reference.id;
+      // //parsing of data to save in shared preferences
+      // for (var doc in querySnapshot.docs) {
+      //   // Getting data directly
+      //
+      //   String religion = doc.get('religion');
+      //   String caste = doc.get('caste');
+      //   String subcaste = doc.get('subcaste');
+      //   String sect = doc.get('sect');
+      //   String account_created_at = doc.get('account_created_at');
+      //   String mother_tongue = doc.get('mother_tongue');
+      //   String phone = doc.get('primary_phone');
+      //   String gender = doc.get('gender');
+      //   saveDataInLocal(id,caste,religion,subcaste,sect,account_created_at,mother_tongue,phone,gender);
+      //   debugPrint(id);
+      //   // Getting data from map
+      //   // Map<String, dynamic> data = doc.data();
+      //   // int age = data['age'];
+      // }
+    }
+    GlobalWidgets.hideProgressLoader();
+//     var _apiService = ApiService();
+//     SharedPreferences prefs = await SharedPreferences.getInstance();
+//
+//     Map<String, dynamic> userInfo = Map();
+//
+//     userInfo['caste'] = GlobalVariables.valueChosen;
+//     userInfo['gender'] = prefs.getString('gender');
+//
+//     GlobalWidgets.showProgressLoader("Please Wait");
+//     GlobalWidgets.hideKeyboard(context);
+//     final res = await _apiService.byCaste(apiParams: userInfo);
+//     GlobalWidgets.hideProgressLoader();
+//     if (res is ByCasteProposalsModel) {
+//       setState(() {
+//         byCasteProposalsModel = res;
+//       });
+//       print('hurrah');
+//       // Get.toNamed(Routes.ALL_CASTES_MAIN_PAGE);
+// //show success dialog
+// //        successDialog(GlobalVariables.signUpResponse);
+//     }
+    // else {
+    //   errorDialog(context);
+    // }
+  }
+
+  featuredItem(BuildContext context){
+    // int length = byCasteProposalsModel?.serverResponse.length ?? 0;
+    int length = featuredProducts.length ?? 0;
+    return ListView.separated(
+        itemCount: length,
+        separatorBuilder: (context, index) =>Divider(height: 1, color: ColorsX.light_orange),
+        shrinkWrap: true,
+        physics: AlwaysScrollableScrollPhysics(),
+        itemBuilder: (context, index){
+          return GestureDetector(
+            onTap: (){
+              // GlobalVariables.idOfProposal = "${byCasteProposalsModel?.serverResponse[index].basicDetails.id}";
+              GlobalVariables.idOfProposal = "${featuredProducts[index].reference.id}";
+              print(GlobalVariables.idOfProposal);
+              GlobalVariables.isMyProfile = false;
+              Get.toNamed(Routes.PROPOSALS_DETAIL);
+            },
+            child: Container(
+              margin: EdgeInsets.only(top: 10, bottom: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  SizedBox(width: 8.0,),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: CircleAvatar(
+                            backgroundColor: ColorsX.yellowColor,
+                            // child: globalWidgets.myText(context, (index+1).toString(), ColorsX.black, 0, 0, 0, 0, FontWeight.w400, 12),
+                            child: FaIcon(FontAwesomeIcons.handshake, color: ColorsX.black,)
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(width: 8.0,),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // globalWidgets.myText(context, "${byCasteProposalsModel?.serverResponse[index].basicDetails.caste}", ColorsX.yellowColor, 5, 0, 0, 0, FontWeight.w900, 14),
+                      globalWidgets.myText(context, "${featuredProducts[index].get('caste')}", ColorsX.yellowColor, 5, 0, 0, 0, FontWeight.w900, 14),
+                      // globalWidgets.myText(context, ageCalculate("${byCasteProposalsModel?.serverResponse[index].basicDetails.dob}") + " | " +
+                      //     heightCalculate("${byCasteProposalsModel?.serverResponse[index].basicDetails.height}"), ColorsX.white, 5, 0, 0, 0, FontWeight.w400, 12),
+                      Container(
+                        width: SizeConfig.screenWidth* .55,
+                        // child: globalWidgets.myTextCustom(context, "${byCasteProposalsModel?.serverResponse[index].basicDetails.occupation} | ${byCasteProposalsModel?.serverResponse[index].basicDetails.qualification}",
+                        //     ColorsX.white, 5, 0, 0, 0, FontWeight.w400, 12),
+                        child: globalWidgets.myTextCustom(context, "${featuredProducts[index].get('occupation')} | ${documentsByCastes[index].get('qualification')}",
+                            ColorsX.white, 5, 0, 0, 0, FontWeight.w400, 12),
+                      ),
+                      // globalWidgets.myText(context, "${byCasteProposalsModel?.serverResponse[index].basicDetails.area}", ColorsX.white, 5, 0, 0, 5, FontWeight.w400, 12),
+                      globalWidgets.myText(context, "${featuredProducts[index].get('area')}", ColorsX.white, 5, 0, 0, 5, FontWeight.w400, 12),
+
+                    ],
+                  ),
+                  SizedBox(width: 8.0,),
+                ],
+              ),
+              // child: ListTile(
+              //
+              //   leading: CircleAvatar(
+              //     backgroundColor: ColorsX.yellowColor,
+              //     child: globalWidgets.myText(context, (index+1).toString(), ColorsX.black, 0, 0, 0, 0, FontWeight.w400, 12),
+              //   ),
+              //   title: globalWidgets.myText(context, index%2==0 ? "Siddiqui" : "Hashmi Qureshi", ColorsX.yellowColor, 0, 0, 0, 0, FontWeight.w900, 14),
+              //   subtitle: globalWidgets.myText(context, "32 yrs | 5\u00276 \nEngineer | Software Engineer\n"
+              //       "DHA Lahore", ColorsX.white, 0, 0, 0, 0, FontWeight.w400, 13),
+              //   trailing: globalWidgets.myText(context, "16 days ago", ColorsX.white, 0, 0, 0, 0, FontWeight.w400, 13),
+              // ),
+            ),
+          );
+        }
+    );
+  }
   peofessions(BuildContext context) {
 
     return ListView.separated(
