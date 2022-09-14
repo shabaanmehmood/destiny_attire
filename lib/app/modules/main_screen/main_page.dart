@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:destiny_attire/app/views/widget/categories.dart';
+import 'package:destiny_attire/app/views/widget/featured_item.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -32,6 +34,7 @@ class _MainScreenState extends State<MainScreen> {
   // FeaturedModel? featuredModel;
   List<DocumentSnapshot> documents = [];
   List<DocumentSnapshot> featuredProducts = [];
+  List<DocumentSnapshot> allCategories = [];
   String? gender = '';
   SharedPreferences? prefs;
   @override
@@ -99,6 +102,9 @@ class _MainScreenState extends State<MainScreen> {
                 child: Image.asset('assets/images/logo.png', height: 80, width: 80,)),
           ),
           globalWidgets.myText(context, 'Featured', ColorsX.black, 20, 10, 0, 0, FontWeight.w700, 23),
+          featuredProducts.isEmpty? Container() : ItemCardForFeatured(documents: featuredProducts,),
+          globalWidgets.myText(context, 'Categories', ColorsX.black, 20, 10, 0, 0, FontWeight.w700, 23),
+          featuredProducts.isEmpty? Container() : AllCategories(documents: allCategories,),
           // globalWidgets.myText(context, 'Matches available for theses professions', ColorsX.white, 0, 10, 0, 0, FontWeight.w400, 13),
           // // castes(context,),
           // peofessions(context,),
@@ -124,6 +130,13 @@ class _MainScreenState extends State<MainScreen> {
     // .limit(1)
         .get();
     final List<DocumentSnapshot> firestoreResponseList = querySnapshot.docs;
+
+    final QuerySnapshot querySnapshotForCategories = await FirebaseFirestore.instance
+        .collection('categories')
+    // .limit(1)
+        .get();
+    final List<DocumentSnapshot> firestoreResponseListCategories = querySnapshotForCategories.docs;
+
     if(firestoreResponseList.isEmpty) {
       debugPrint('no featured and not available');
     }
@@ -133,6 +146,39 @@ class _MainScreenState extends State<MainScreen> {
         // GlobalVariables.featuredModelLength = documentsByCastes.length ?? 0;
         // GlobalVariables.featuredModelLength = featuredModel?.serverResponse.length ?? 0;
         print('featured length' + featuredProducts.length.toString());
+      });
+      // print(documents.first);
+      //
+      // String id = querySnapshot.docs[0].reference.id;
+      // //parsing of data to save in shared preferences
+      // for (var doc in querySnapshot.docs) {
+      //   // Getting data directly
+      //
+      //   String religion = doc.get('religion');
+      //   String caste = doc.get('caste');
+      //   String subcaste = doc.get('subcaste');
+      //   String sect = doc.get('sect');
+      //   String account_created_at = doc.get('account_created_at');
+      //   String mother_tongue = doc.get('mother_tongue');
+      //   String phone = doc.get('primary_phone');
+      //   String gender = doc.get('gender');
+      //   saveDataInLocal(id,caste,religion,subcaste,sect,account_created_at,mother_tongue,phone,gender);
+      //   debugPrint(id);
+      //   // Getting data from map
+      //   // Map<String, dynamic> data = doc.data();
+      //   // int age = data['age'];
+      // }
+    }
+    if(firestoreResponseListCategories.isEmpty) {
+      debugPrint('no categories available');
+    }
+
+    else {
+      setState(() {
+        allCategories = querySnapshotForCategories.docs;
+        // GlobalVariables.featuredModelLength = documentsByCastes.length ?? 0;
+        // GlobalVariables.featuredModelLength = featuredModel?.serverResponse.length ?? 0;
+        print('all categories length' + allCategories.length.toString());
       });
       // print(documents.first);
       //
@@ -234,7 +280,7 @@ class _MainScreenState extends State<MainScreen> {
                         width: SizeConfig.screenWidth* .55,
                         // child: globalWidgets.myTextCustom(context, "${byCasteProposalsModel?.serverResponse[index].basicDetails.occupation} | ${byCasteProposalsModel?.serverResponse[index].basicDetails.qualification}",
                         //     ColorsX.white, 5, 0, 0, 0, FontWeight.w400, 12),
-                        child: globalWidgets.myTextCustom(context, "${featuredProducts[index].get('occupation')} | ${documentsByCastes[index].get('qualification')}",
+                        child: globalWidgets.myTextCustom(context, "${featuredProducts[index].get('occupation')} | ${featuredProducts[index].get('qualification')}",
                             ColorsX.white, 5, 0, 0, 0, FontWeight.w400, 12),
                       ),
                       // globalWidgets.myText(context, "${byCasteProposalsModel?.serverResponse[index].basicDetails.area}", ColorsX.white, 5, 0, 0, 5, FontWeight.w400, 12),

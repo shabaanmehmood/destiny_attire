@@ -192,13 +192,21 @@ class GlobalWidgets {
           fontSize: fontSize)),),
     );
   }
+  cutText(BuildContext context, String text, Color colorsX, double top, double left, double right, double bottom,
+      FontWeight fontWeight, double fontSize){
+    return Container(
+      margin: EdgeInsets.only(top: top, left: left, right: right, bottom: bottom),
+      child: Text(text, style: GoogleFonts.mukta(textStyle: TextStyle( color: colorsX, fontWeight: fontWeight,
+          fontSize: fontSize), decoration: TextDecoration.lineThrough),),
+    );
+  }
   myTextCustom(BuildContext context, String text, Color colorsX, double top, double left, double right, double bottom,
       FontWeight fontWeight, double fontSize){
     return Container(
       margin: EdgeInsets.only(top: top, left: left, right: right, bottom: bottom),
       child: Text(text,
         overflow: TextOverflow.ellipsis,
-        maxLines: 2,
+        maxLines: 1,
         style: GoogleFonts.mukta(textStyle: TextStyle( color: colorsX, fontWeight: fontWeight,
           fontSize: fontSize)),),
     );
