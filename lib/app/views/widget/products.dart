@@ -1,62 +1,61 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:destiny_attire/app/routes/app_pages.dart';
 import 'package:destiny_attire/app/utils/colors.dart';
-import 'package:destiny_attire/app/utils/global_variables.dart';
 import 'package:destiny_attire/app/utils/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../routes/app_pages.dart';
+import '../../utils/global_variables.dart';
 import '../../utils/global_widgets.dart';
-class MainPageAllCategories extends StatelessWidget {
+class Products extends StatelessWidget {
   final List<DocumentSnapshot>? documents;
-  MainPageAllCategories({this.documents});
+  Products({this.documents});
   GlobalWidgets globalWidgets = GlobalWidgets();
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: SizeConfig.screenHeight * .35,
-      width: SizeConfig.screenWidth * .45,
+      height: SizeConfig.screenHeight * .43,
+      width: SizeConfig.screenWidth * .35,
       child: ListView.builder(
           itemCount: documents?.length,
           scrollDirection: Axis.horizontal,
           shrinkWrap: true,
           itemBuilder: (context, index){
-            return GestureDetector(
-              onTap: (){
-                GlobalVariables.categoryChosen = "${documents?[index].get('name')}";
-                debugPrint("${documents?[index].get('name')}");
-                Get.toNamed(Routes.PRODUCTS_OF_CATEGORY);
-              },
-              child: Padding(
-                padding: EdgeInsets.only(left: index == 0 ? 8 : 2, right: index == documents!.length-1 ? 8 : 0),
+            return Padding(
+              padding: EdgeInsets.only(left: index == 0 ? 8 : 2, right: index == documents!.length-1 ? 8 : 0),
+              child: GestureDetector(
+                onTap: (){
+                  GlobalVariables.idOfProduct = "${documents?[index].reference.id}";
+                  Get.toNamed(Routes.PRODUCTS_DETAIL);
+                },
                 child: Card(
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
                   elevation: 5,
                   color: Colors.white,
                   child: GestureDetector(
                     onTap: (){
-                      GlobalVariables.categoryChosen = "${documents?[index].get('name')}";
-                      debugPrint("${documents?[index].get('name')}");
-                      Get.toNamed(Routes.PRODUCTS_OF_CATEGORY);
+                      GlobalVariables.idOfProduct = "${documents?[index].reference.id}";
+                      Get.toNamed(Routes.PRODUCTS_DETAIL);
                     },
                     child: Column(
-                      // mainAxisAlignment: MainAxisAlignment.center,
-                      // crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         showImageOfItem(documents,index, context),
                         Container(
-                          constraints: BoxConstraints(
-                              minHeight: 0, minWidth: 11, maxWidth: SizeConfig.screenWidth * .44),
-                          // width: SizeConfig.screenWidth * .44,
-                          child: globalWidgets.myTextCustom(context, "${documents?[index].get('name')}", ColorsX.black, 0, 10, 5, 0, FontWeight.w600, 15),
+                          width: SizeConfig.screenWidth * .35,
+                          child: globalWidgets.myTextCustom(context, "${documents?[index].get('product_name')}", ColorsX.black, 0, 10, 5, 0, FontWeight.w600, 15),
                         ),
                         Container(
-                          constraints: BoxConstraints(
-                              minHeight: 0, minWidth: 11, maxWidth: SizeConfig.screenWidth * .45),
-                          child: globalWidgets.myTextCustom(context, "${documents?[index].get('any_text')}", ColorsX.black.withOpacity(0.4), 0, 10, 5, 0, FontWeight.w600, 12),
+                          width: SizeConfig.screenWidth * .35,
+                          child: globalWidgets.myTextCustom(context, "${documents?[index].get('short_description')}", ColorsX.black.withOpacity(0.4), 0, 10, 5, 0, FontWeight.w600, 12),
                         ),
+
+                        globalWidgets.cutText(context, "PKR ${documents?[index].get('cut_price')}", ColorsX.red_danger, 0, 10, 5, 0, FontWeight.w300, 15),
+                        globalWidgets.myText(context, "PKR ${documents?[index].get('sale_price')}", ColorsX.black, 0, 10, 5, 0, FontWeight.w600, 15),
+
                       ],
                     ),
                   ),
@@ -75,10 +74,10 @@ class MainPageAllCategories extends StatelessWidget {
       padding: const EdgeInsets.only(top: 10, left: 3, right: 3, bottom: 3),
       child: Container(
         height: SizeConfig.screenHeight * .25,
-        width: SizeConfig.screenWidth * .37,
+        width: SizeConfig.screenWidth * .36,
         child: CachedNetworkImage(
-          fit: BoxFit.contain,
-          imageUrl: documents?[index].get('cat_image'),
+          fit: BoxFit.scaleDown,
+          imageUrl: documents?[index].get('images')[0],
           placeholder: (context,url) => Container(
             child: Image.asset('assets/images/logo.png', height: 100, width: 100,),
           ),

@@ -238,6 +238,6 @@ class DrawerWidget extends StatelessWidget {
 
   void getId(BuildContext context) async{
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    GlobalVariables.idOfProposal = "${preferences.getString("id")}";
+    GlobalVariables.idOfProduct = "${preferences.getString("id")}";
   }
 }

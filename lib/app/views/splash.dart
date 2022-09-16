@@ -72,7 +72,7 @@ class _SplashScreenState extends State<SplashScreen> {
     }else{
       Timer(
           Duration(seconds: 3),
-              () => Get.toNamed(Routes.ALL_CASTES_MAIN_PAGE));
+              () => Get.toNamed(Routes.MAIN_SCREEN));
     }
   }
   void saveTokenInLocal(String? value)async {

@@ -52,6 +52,7 @@ class GlobalVariables {
   static String additional_info = '';
   static String profession_demand = '';
   static List<dynamic> professionDemandListFirestore = [];
+  static List<dynamic> imagesListOfSpecificProduct = [];
   static String caste_demand = '';
   static String age_limit = '';
   static String height_demand = '';
@@ -82,7 +83,9 @@ class GlobalVariables {
   static bool isCaste = false;
   static bool isMyProfile = false;
   static String valueChosen = '';
-  static String idOfProposal = '';
+  static String viewAll = '';
+  static String categoryChosen = '';
+  static String idOfProduct = '';
   static int featuredModelLength = 0;
   static var webView_url = '';
 

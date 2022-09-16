@@ -60,6 +60,7 @@ class LoginScreen extends StatelessWidget {
             alignment: Alignment.centerRight,
             child: myText(context, "Forgot Password?", ColorsX.black, 0, 0, 10, 10, FontWeight.w400, 16,),
           ),
+          SizedBox(height: 15,),
           loginButton(context),
           Align(
             alignment: Alignment.center,
@@ -291,7 +292,7 @@ class LoginScreen extends StatelessWidget {
     print(prefs.getString('mother_tongue'));
     print(prefs.getString('phone'));
     print(prefs.getString('gender'));
-    Get.toNamed(Routes.ALL_CASTES_MAIN_PAGE);
+    Get.toNamed(Routes.MAIN_SCREEN);
   }
 
 }

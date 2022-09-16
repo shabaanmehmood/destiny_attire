@@ -1,6 +1,11 @@
 
 import 'package:destiny_attire/app/modules/authentication/register_now.dart';
+import 'package:destiny_attire/app/modules/cart/cart_screen.dart';
+import 'package:destiny_attire/app/modules/main_screen/all_categories.dart';
+import 'package:destiny_attire/app/modules/main_screen/all_featured.dart';
 import 'package:destiny_attire/app/modules/main_screen/main_page.dart';
+import 'package:destiny_attire/app/modules/main_screen/product_details.dart';
+import 'package:destiny_attire/app/views/widget/products_of_category.dart';
 import 'package:get/get.dart';
 
 import '../modules/authentication/login.dart';
@@ -34,32 +39,32 @@ class AppPages {
       page: () => MainScreen(),
       // binding: LoginBinding(),
     ),
-    // GetPage(
-    //   name: _Paths.NEW_CATEGORY,
-    //   page: () => NewCategory(),
-    //   // binding: LoginBinding(),
-    // ),
-    // GetPage(
-    //   name: _Paths.NEW_PRODUCT,
-    //   page: () => NewProduct(),
-    //   // binding: LoginBinding(),
-    // ),
+    GetPage(
+      name: _Paths.PRODUCTS_DETAIL,
+      page: () => ProductDetails(),
+      // binding: LoginBinding(),
+    ),
+    GetPage(
+      name: _Paths.PRODUCTS_OF_CATEGORY,
+      page: () => ProductsOfCategory(),
+      // binding: LoginBinding(),
+    ),
     GetPage(
       name: _Paths.REGISTER_NOW,
       page: () => RegisterNow(),
     ),
-    // GetPage(
-    //   name: _Paths.FAMILY_INFORMATION,
-    //   page: () => FamilyInformation(),
-    // ),
-    // GetPage(
-    //   name: _Paths.REQUIRED_PROPOSAL,
-    //   page: () => RequiredProposal(),
-    // ),
-    // GetPage(
-    //   name: _Paths.ALL_CASTES_MAIN_PAGE,
-    //   page: () => AllCastesMainPage(),
-    // ),
+    GetPage(
+      name: _Paths.ALL_FEATURED,
+      page: () => AllFeatured(),
+    ),
+    GetPage(
+      name: _Paths.ALL_CATEGORIES,
+      page: () => AllCategories(),
+    ),
+    GetPage(
+      name: _Paths.CART,
+      page: () => CartScreen(),
+    ),
     // GetPage(
     //   name: _Paths.PROPOSALS_LIST,
     //   page: () => ProposalsList(),
