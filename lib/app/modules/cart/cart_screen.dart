@@ -88,6 +88,8 @@ class _CartScreenState extends State<CartScreen> {
                 GlobalVariables.cartList.isEmpty ? Center(
                   child: globalWidgets.myText(context, 'No Item Added In Cart', ColorsX.black, 0, 15, 15, 0, FontWeight.w500, 20),
                 ) : buildCartItems(context),
+                GlobalVariables.cartList.isEmpty ? Container() : globalWidgets.myText(context, 'Total Amount To Be Paid', ColorsX.black, 20, 5, 5, 0, FontWeight.w700, 22),
+                GlobalVariables.cartList.isEmpty ? Container() : showTotalAmount(context),
                 // allCategories.isEmpty ? Container() :
                 // showGridView(context),
                 // allCategories.isEmpty ? Container() :ourLinks(context),
@@ -182,8 +184,26 @@ class _CartScreenState extends State<CartScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      globalWidgets.myText(context, 'Amount Payable', ColorsX.greenish, SizeConfig.screenHeight * .06, 0, 5, 0, FontWeight.w500, 15),
-                      amountPayableItem(index, context),
+                      GestureDetector(
+                        onTap: (){
+                          setState(() {
+                            removeItem(index,context);
+                          });
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: ColorsX.red_danger,
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                          ),
+                          margin: EdgeInsets.only(left: SizeConfig.screenWidth * .10, right: 5),
+                          child: Padding(
+                            padding: const EdgeInsets.all(5.0),
+                            child: globalWidgets.myText(context, 'Remove', ColorsX.white, 0, 5, 5, 0, FontWeight.w500, 15),
+
+                          )),
+                        ),
+                      globalWidgets.myText(context, 'Amount Payable', ColorsX.greenish, SizeConfig.screenHeight * .05, 0, 5, 0, FontWeight.w500, 15),
+                      amountPayableItem(index, context)
                     ],
                   ),
                 ],
@@ -276,6 +296,7 @@ class _CartScreenState extends State<CartScreen> {
   counter(int index, BuildContext context) {
     Map <String, dynamic> myMap = GlobalVariables.cartList[index];
     int quantity = myMap["quantity"];
+    int salePrice = myMap["sale_price"];
     return Container(
       margin: EdgeInsets.only(left: 10, top: 5),
       child: Row(
@@ -287,6 +308,7 @@ class _CartScreenState extends State<CartScreen> {
                 setState(() {
                   quantity = quantity - 1;
                   myMap.update('quantity', (value) => quantity);
+                  myMap.update('amount_payable', (value) => quantity * salePrice);
                 });
                 debugPrint(quantity.toString());
               }
@@ -299,6 +321,7 @@ class _CartScreenState extends State<CartScreen> {
               setState(() {
                 quantity = quantity + 1;
                 myMap.update('quantity', (value) => quantity);
+                myMap.update('amount_payable', (value) => quantity * salePrice);
               });
               debugPrint(quantity.toString());
               },
@@ -309,6 +332,26 @@ class _CartScreenState extends State<CartScreen> {
         ],
       ),
     );
+  }
+
+  showTotalAmount(BuildContext context) {
+    int totalAmount = 0;
+    for(int index = 0; index < GlobalVariables.cartList.length; index++){
+      Map <String, dynamic> myMap = GlobalVariables.cartList[index];
+      int amount_payable_for_item = myMap["amount_payable"];
+      totalAmount = totalAmount + amount_payable_for_item;
+      debugPrint("${totalAmount}");
+    }
+    debugPrint(totalAmount.toString());
+    return globalWidgets.myText(context, "PKR ${totalAmount}", ColorsX.black, 15, 0, 0, 0, FontWeight.w700, 20);
+    ;
+  }
+
+  void removeItem( int index, BuildContext context) {
+    setState(() {
+      GlobalVariables.cartList.removeAt(index);
+    });
+    debugPrint("new array" + GlobalVariables.cartList.toString());
   }
 
 }
