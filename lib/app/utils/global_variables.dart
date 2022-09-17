@@ -88,5 +88,5 @@ class GlobalVariables {
   static String idOfProduct = '';
   static int featuredModelLength = 0;
   static var webView_url = '';
-
+  static var cartList = [];
 }

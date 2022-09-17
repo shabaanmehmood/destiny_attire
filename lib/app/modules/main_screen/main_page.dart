@@ -27,7 +27,7 @@ class MainScreen extends StatefulWidget {
   _MainScreenState createState() => _MainScreenState();
 }
 
-class _MainScreenState extends State<MainScreen> {
+class _MainScreenState extends State<MainScreen> with SingleTickerProviderStateMixin{
   GlobalWidgets globalWidgets = GlobalWidgets();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   CacheData cacheData = CacheData();
@@ -39,11 +39,22 @@ class _MainScreenState extends State<MainScreen> {
   List<DocumentSnapshot> allProducts = [];
   String? gender = '';
   SharedPreferences? prefs;
+  AnimationController? _animationController;
+  Animation? animation;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     loadFeaturedProducts();
+
+    _animationController =
+        AnimationController(vsync: this, duration: Duration(seconds: 1));
+    animation = ColorTween(begin: Colors.red, end: Colors.amber)
+        .animate(_animationController!);
+    _animationController?.repeat();
+    _animationController?.addListener(() {
+      setState(() {});
+    });
   }
   @override
   Widget build(BuildContext context) {
@@ -66,7 +77,7 @@ class _MainScreenState extends State<MainScreen> {
           ),
         ),
           floatingActionButton: new FloatingActionButton(
-            backgroundColor: ColorsX.black,
+            backgroundColor: GlobalVariables.cartList.isEmpty ? ColorsX.black : animation?.value,
             onPressed: () => cartOpen(context),
             tooltip: 'Cart',
             child: FaIcon(FontAwesomeIcons.shoppingCart, color: ColorsX.white,),

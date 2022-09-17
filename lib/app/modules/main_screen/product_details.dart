@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
+import '../../routes/app_pages.dart';
 import '../../utils/cache_data.dart';
 import '../../utils/colors.dart';
 import '../../utils/global_widgets.dart';
@@ -20,7 +21,7 @@ class ProductDetails extends StatefulWidget {
   _ProductDetailsState createState() => _ProductDetailsState();
 }
 
-class _ProductDetailsState extends State<ProductDetails> {
+class _ProductDetailsState extends State<ProductDetails>{
 
   GlobalWidgets globalWidgets = GlobalWidgets();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -48,6 +49,12 @@ class _ProductDetailsState extends State<ProductDetails> {
           icon: Icon(Icons.menu_rounded, color: ColorsX.black,),
           onPressed: () => _scaffoldKey.currentState?.openDrawer(), //Scaffold.of(context).openDrawer(),
         ),
+      ),
+      floatingActionButton: new FloatingActionButton(
+        backgroundColor: ColorsX.black,
+        onPressed: () => cartOpen(context),
+        tooltip: 'Cart',
+        child: FaIcon(FontAwesomeIcons.shoppingCart, color: ColorsX.white,),
       ),
     );
   }
@@ -122,18 +129,6 @@ class _ProductDetailsState extends State<ProductDetails> {
           Container(
             margin: EdgeInsets.only(bottom: SizeConfig.screenHeight * .02),
           ),
-          // Align(
-          //   alignment: Alignment.center,
-          //   child: Container(
-          //       margin: EdgeInsets.only(top: SizeConfig.screenHeight * .02, bottom: SizeConfig.screenHeight * .02),
-          //       child: Image.asset('assets/images/logo.png', height: 80, width: 100,)),
-          // ),
-          // globalWidgets.myText(context, 'Matches available for theses professions', ColorsX.white, 0, 10, 0, 0, FontWeight.w400, 13),
-          // // castes(context,),
-          // peofessions(context,),
-          // globalWidgets.myText(context, 'Castes', ColorsX.yellowColor, 20, 10, 0, 0, FontWeight.w700, 20),
-          // globalWidgets.myText(context, 'Matches available for theses castes', ColorsX.white, 0, 10, 0, 0, FontWeight.w400, 13),
-          // castes(context,),
         ],
       ),
     );
@@ -301,19 +296,38 @@ class _ProductDetailsState extends State<ProductDetails> {
     );
   }
 
+  cartOpen(BuildContext context) {
+    Get.toNamed(Routes.CART);
+  }
   addToCartButton(BuildContext context) {
-    return Container(
-      width: SizeConfig.screenWidth,
-      margin: EdgeInsets.only(left: 10, right: 10),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(10.0)),
-        color: ColorsX.black,
-      ),
-      child: Align(
-        alignment: Alignment.center,
-        child: Padding(
-          padding: EdgeInsets.symmetric(vertical: 15.0),
-          child: globalWidgets.myText(context, "Add To Cart", ColorsX.white, 0, 0, 0, 0, FontWeight.w600, 17),
+    return GestureDetector(
+      onTap: (){
+        Map<String,dynamic> cartMap = new Map();
+        cartMap["product_name"]= fetchDoc?['product_name'];
+        cartMap["image_url"] = fetchDoc?["images"][0];
+        cartMap["cut_price"] = int.parse(fetchDoc?["cut_price"]);
+        cartMap["sale_price"] = int.parse(fetchDoc?["sale_price"]);
+        cartMap["amount_payable"] = int.parse(fetchDoc?["sale_price"]);
+        cartMap["quantity"] = 1;
+        setState(() {
+          GlobalVariables.cartList.add(cartMap);
+        });
+        debugPrint(GlobalVariables.cartList.toString());
+        Get.back();
+      },
+      child: Container(
+        width: SizeConfig.screenWidth,
+        margin: EdgeInsets.only(left: 10, right: 10),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+          color: ColorsX.black,
+        ),
+        child: Align(
+          alignment: Alignment.center,
+          child: Padding(
+            padding: EdgeInsets.symmetric(vertical: 15.0),
+            child: globalWidgets.myText(context, "Add To Cart", ColorsX.white, 0, 0, 0, 0, FontWeight.w600, 17),
+          ),
         ),
       ),
     );

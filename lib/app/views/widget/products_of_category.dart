@@ -51,6 +51,12 @@ class _ProductsOfCategoryState extends State<ProductsOfCategory> {
           onPressed: () => _scaffoldKey.currentState?.openDrawer(), //Scaffold.of(context).openDrawer(),
         ),
       ),
+      floatingActionButton: new FloatingActionButton(
+        backgroundColor: ColorsX.black,
+        onPressed: () => cartOpen(context),
+        tooltip: 'Cart',
+        child: FaIcon(FontAwesomeIcons.shoppingCart, color: ColorsX.white,),
+      ),
     );
   }
 
@@ -368,5 +374,8 @@ class _ProductsOfCategoryState extends State<ProductsOfCategory> {
         ),
       )
     );
+  }
+  cartOpen(BuildContext context) {
+    Get.toNamed(Routes.CART);
   }
 }

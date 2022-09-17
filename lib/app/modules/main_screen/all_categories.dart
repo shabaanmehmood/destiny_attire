@@ -48,9 +48,14 @@ class _AllCategoriesState extends State<AllCategories> {
           onPressed: () => _scaffoldKey.currentState?.openDrawer(), //Scaffold.of(context).openDrawer(),
         ),
       ),
+      floatingActionButton: new FloatingActionButton(
+        backgroundColor: ColorsX.black,
+        onPressed: () => cartOpen(context),
+        tooltip: 'Cart',
+        child: FaIcon(FontAwesomeIcons.shoppingCart, color: ColorsX.white,),
+      ),
     );
   }
-
   body(BuildContext context) {
     return Container(
       height: SizeConfig.screenHeight,
@@ -71,6 +76,9 @@ class _AllCategoriesState extends State<AllCategories> {
     );
   }
 
+  cartOpen(BuildContext context) {
+    Get.toNamed(Routes.CART);
+  }
   listViewContent(BuildContext context){
     return Container(
       height: SizeConfig.screenHeight,
