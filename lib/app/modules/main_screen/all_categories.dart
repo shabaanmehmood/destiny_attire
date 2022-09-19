@@ -231,7 +231,7 @@ class _AllCategoriesState extends State<AllCategories> {
   showGridView(BuildContext context) {
     return ConstrainedBox(
       constraints: BoxConstraints(
-        minHeight: SizeConfig.screenHeight * .35, // Set as you want or you can remove it also.
+        minHeight: SizeConfig.screenHeight * .43, // Set as you want or you can remove it also.
         maxHeight: double.infinity,
       ),
       child: Container(
@@ -251,7 +251,7 @@ class _AllCategoriesState extends State<AllCategories> {
             // crossAxisSpacing: SizeConfig.marginVerticalXsmall,
             // mainAxisSpacing: SizeConfig.marginVerticalXsmall,
             crossAxisCount: 2,
-            childAspectRatio: 0.7,
+            childAspectRatio: 0.65,
           ),
           itemBuilder: (contxt, index) {
             return  buildItem(index, context);

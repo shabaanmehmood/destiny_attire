@@ -60,7 +60,7 @@ class LoginScreen extends StatelessWidget {
             alignment: Alignment.centerRight,
             child: myText(context, "Forgot Password?", ColorsX.black, 0, 0, 10, 10, FontWeight.w400, 16,),
           ),
-          SizedBox(height: 15,),
+          SizedBox(height: 25,),
           loginButton(context),
           Align(
             alignment: Alignment.center,

@@ -261,7 +261,7 @@ class _ProductsOfCategoryState extends State<ProductsOfCategory> {
             // crossAxisSpacing: SizeConfig.marginVerticalXsmall,
             // mainAxisSpacing: SizeConfig.marginVerticalXsmall,
             crossAxisCount: 2,
-            childAspectRatio: 0.6,
+            childAspectRatio: 0.5,
           ),
           itemBuilder: (contxt, index) {
             return  buildItem(index, context);
