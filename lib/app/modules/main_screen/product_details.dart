@@ -3,6 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:destiny_attire/app/utils/global_variables.dart';
+import 'package:destiny_attire/app/views/widget/large_image.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -241,10 +242,8 @@ class _ProductDetailsState extends State<ProductDetails>{
                     color: Colors.white,
                     child: GestureDetector(
                       onTap: (){
-                        debugPrint(fetchDoc?['images']);
-                        // GlobalVariables.imagesListOfSpecificProduct = documents?[index].get('images');
-                        // GlobalVariables.idOfProduct = "${documents?[index].reference.id}";
-                        // Get.toNamed(Routes.PRODUCTS_DETAIL);
+                        // debugPrint(fetchDoc?['images']);
+                        Navigator.of(context).push(MaterialPageRoute(builder:(context)=>LargeImage("${fetchDoc?['images'][index]}")));
                       },
                       child: Container(
                         height: SizeConfig.screenHeight * .40,

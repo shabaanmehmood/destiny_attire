@@ -99,21 +99,79 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
               globalWidgets.myText(context, 'Your mobile number where we can contact you', ColorsX.black, 20, 15, 0, 0, FontWeight.w700, 15),
               globalWidgets.myTextField(TextInputType.phone, phoneCtl, false, "Phone Number" ),
               SizedBox(height: 15,),
-              globalWidgets.myText(context, 'Order Details', ColorsX.greenish, 0, 15, 15, 0, FontWeight.w700, 20),
               Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                      width: 40,
+                      margin: EdgeInsets.only(left: 10, top: 5),
+                      child: FaIcon(FontAwesomeIcons.book, color: ColorsX.greenish,)
+                  ),
+                  globalWidgets.myText(context, 'Order Details', ColorsX.greenish, 0, 15, 15, 0, FontWeight.w700, 20),
+                ]
+              ),
+                  Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   itemsWithQuantity(context),
                 ],
               ),
-              globalWidgets.myText(context, 'Payment Method', ColorsX.greenish, 10, 15, 15, 0, FontWeight.w700, 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                      width: 40,
+                      margin: EdgeInsets.only(left: 10, top: 13),
+                      child: FaIcon(FontAwesomeIcons.cashRegister, color: ColorsX.greenish,)
+                  ),
+                  globalWidgets.myText(context, 'Payment Method', ColorsX.greenish, 10, 15, 15, 0, FontWeight.w700, 20),
+                ],
+              ),
               globalWidgets.myText(context, 'Cash on Delivery', ColorsX.black.withOpacity(0.8), 0, 15, 15, 0, FontWeight.w700, 17),
-              globalWidgets.myText(context, 'Delivery Method', ColorsX.greenish, 10, 15, 15, 0, FontWeight.w700, 20),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                      width: 40,
+                      margin: EdgeInsets.only(left: 10, top: 13),
+                      child: FaIcon(FontAwesomeIcons.truck, color: ColorsX.greenish,)
+                  ),
+                  globalWidgets.myText(context, 'Delivery Method', ColorsX.greenish, 10, 15, 15, 0, FontWeight.w700, 20),
+                ],
+              ),
               globalWidgets.myText(context, 'Delivery at your doorstep', ColorsX.black.withOpacity(0.8), 0, 15, 15, 0, FontWeight.w700, 17),
-              globalWidgets.myText(context, 'Delivery Charges', ColorsX.greenish, 10, 15, 15, 0, FontWeight.w700, 20),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    width: 40,
+                      margin: EdgeInsets.only(left: 10, top: 13),
+                      child: FaIcon(FontAwesomeIcons.bagShopping, color: ColorsX.greenish,)
+                  ),
+                  globalWidgets.myText(context, 'Delivery Charges', ColorsX.greenish, 10, 15, 15, 0, FontWeight.w700, 20),
+                ],
+              ),
               globalWidgets.myText(context, 'Delivery is Free Anywhere in Lahore. Whereas PKR250 will be charged for delivery charges other than Lahore  ', ColorsX.black.withOpacity(0.5), 0, 15, 15, 0, FontWeight.w700, 17),
-              globalWidgets.myText(context, 'Amount Payable', ColorsX.greenish, 10, 15, 15, 0, FontWeight.w700, 20),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    width: 40,
+                      margin: EdgeInsets.only(left: 10, top: 13),
+                      child: FaIcon(FontAwesomeIcons.moneyBillTrendUp, color: ColorsX.greenish,)
+                  ),
+                  globalWidgets.myText(context, 'Amount Payable', ColorsX.greenish, 10, 15, 15, 0, FontWeight.w700, 20),
+                ],
+              ),
               showTotalAmount(context),
               SizedBox(height: 30,),
               placeOrder(context),

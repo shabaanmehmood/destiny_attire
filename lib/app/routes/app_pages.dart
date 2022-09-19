@@ -7,6 +7,7 @@ import 'package:destiny_attire/app/modules/main_screen/all_categories.dart';
 import 'package:destiny_attire/app/modules/main_screen/all_featured.dart';
 import 'package:destiny_attire/app/modules/main_screen/main_page.dart';
 import 'package:destiny_attire/app/modules/main_screen/product_details.dart';
+import 'package:destiny_attire/app/views/widget/large_image.dart';
 import 'package:destiny_attire/app/views/widget/products_of_category.dart';
 import 'package:get/get.dart';
 
@@ -75,10 +76,6 @@ class AppPages {
       name: _Paths.SUCCESS_SCREEN,
       page: () => SuccessScreen(),
     ),
-    // GetPage(
-    //   name: _Paths.FILTER_SCREEN,
-    //   page: () => FilterScreen(),
-    // ),
     // GetPage(
     //   name: _Paths.EDIT_PROFILE,
     //   page: () => EditProfile(),
