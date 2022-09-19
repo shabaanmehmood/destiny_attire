@@ -1,6 +1,8 @@
 
 import 'package:destiny_attire/app/modules/authentication/register_now.dart';
 import 'package:destiny_attire/app/modules/cart/cart_screen.dart';
+import 'package:destiny_attire/app/modules/checkout/checkout_screen.dart';
+import 'package:destiny_attire/app/modules/checkout/success.dart';
 import 'package:destiny_attire/app/modules/main_screen/all_categories.dart';
 import 'package:destiny_attire/app/modules/main_screen/all_featured.dart';
 import 'package:destiny_attire/app/modules/main_screen/main_page.dart';
@@ -65,14 +67,14 @@ class AppPages {
       name: _Paths.CART,
       page: () => CartScreen(),
     ),
-    // GetPage(
-    //   name: _Paths.PROPOSALS_LIST,
-    //   page: () => ProposalsList(),
-    // ),
-    // GetPage(
-    //   name: _Paths.PROPOSALS_DETAIL,
-    //   page: () => ProposalDetails(),
-    // ),
+    GetPage(
+      name: _Paths.CHECKOUT_SCREEN,
+      page: () => CheckoutScreen(),
+    ),
+    GetPage(
+      name: _Paths.SUCCESS_SCREEN,
+      page: () => SuccessScreen(),
+    ),
     // GetPage(
     //   name: _Paths.FILTER_SCREEN,
     //   page: () => FilterScreen(),

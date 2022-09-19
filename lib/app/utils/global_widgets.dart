@@ -211,6 +211,17 @@ class GlobalWidgets {
           fontSize: fontSize)),),
     );
   }
+  myTextCustomWithTwoLines(BuildContext context, String text, Color colorsX, double top, double left, double right, double bottom,
+      FontWeight fontWeight, double fontSize){
+    return Container(
+      margin: EdgeInsets.only(top: top, left: left, right: right, bottom: bottom),
+      child: Text(text,
+        overflow: TextOverflow.ellipsis,
+        maxLines: 2,
+        style: GoogleFonts.mukta(textStyle: TextStyle( color: colorsX, fontWeight: fontWeight,
+          fontSize: fontSize)),),
+    );
+  }
   detailText(BuildContext context, String text,String detail, Color colorsX, double top, double left, double right, double bottom,
       FontWeight fontWeight, double fontSize){
     return Container(
@@ -265,6 +276,17 @@ class GlobalWidgets {
   static showErrorToast(
       BuildContext context, String title, String description) {
     MotionToast.error(
+        title: title,
+        animationDuration: Duration(microseconds: 100),
+        toastDuration: Duration(milliseconds: 1700),
+        titleStyle: TextStyle(fontWeight: FontWeight.bold),
+        description: description)
+        .show(context);
+  }
+  //
+  static showSuccessToast(
+      BuildContext context, String title, String description) {
+    MotionToast.success(
         title: title,
         animationDuration: Duration(microseconds: 100),
         toastDuration: Duration(milliseconds: 1700),

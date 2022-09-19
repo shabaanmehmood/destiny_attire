@@ -115,12 +115,6 @@ class DrawerWidget extends StatelessWidget {
           Get.back();
           // Get.toNamed(Routes.FAMILY_INFORMATION);
         }
-        if(text=='Favourites'){
-
-          Get.toNamed(Routes.PROPOSALS_LIST);
-          Get.back();
-          // Get.toNamed(Routes.FAMILY_INFORMATION);
-        }
         if(text=='My Profile'){
           GlobalVariables.isMyProfile = true;
           Get.toNamed(Routes.PROPOSALS_DETAIL);
@@ -184,11 +178,6 @@ class DrawerWidget extends StatelessWidget {
              if(text== "Report an issue"){
                Get.back();
                Get.toNamed(Routes.EDIT_PROFILE);
-               // Get.toNamed(Routes.FAMILY_INFORMATION);
-             }
-             if(text== "Favourites"){
-               Get.back();
-               Get.toNamed(Routes.PROPOSALS_LIST);
                // Get.toNamed(Routes.FAMILY_INFORMATION);
              }
              if(text== "My Profile"){

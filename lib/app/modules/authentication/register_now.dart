@@ -205,13 +205,20 @@ class RegisterNowState extends State<RegisterNow> {
       var documentId = docRef.id;
       GlobalWidgets.hideProgressLoader();
       print('created');
+
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setString('email', userInfo["email"]);
+      prefs.setString('full_name', userInfo["full_name"]);
+
+      debugPrint(prefs.getString('full_name'));
+      debugPrint(prefs.getString('email'));
       Get.toNamed(Routes.MAIN_SCREEN);
     }
     else {
       print(documents.first);
       response = 'no';
       GlobalWidgets.hideProgressLoader();
-      errorDialog(context, 'Failed', 'Something went wrong please try again.');
+      errorDialog(context, 'Failed', 'Email already exists.');
     }
     return response;
   }

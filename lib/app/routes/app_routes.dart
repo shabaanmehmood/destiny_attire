@@ -19,7 +19,8 @@ abstract class Routes {
   static const ALL_FEATURED = _Paths.ALL_FEATURED;
   static const ALL_CATEGORIES = _Paths.ALL_CATEGORIES;
   static const CART = _Paths.CART;
-  static const PROPOSALS_LIST = _Paths.PROPOSALS_LIST;
+  static const CHECKOUT_SCREEN = _Paths.CHECKOUT_SCREEN;
+  static const SUCCESS_SCREEN = _Paths.SUCCESS_SCREEN;
   static const PROPOSALS_DETAIL = _Paths.PROPOSALS_DETAIL;
   static const FILTER_SCREEN = _Paths.FILTER_SCREEN;
   static const EDIT_PROFILE = _Paths.EDIT_PROFILE;
@@ -41,8 +42,8 @@ abstract class _Paths {
   static const ALL_FEATURED = '/all-featured';
   static const ALL_CATEGORIES = '/all-categories';
   static const CART = '/all-cart';
-  static const ALL_CASTES_MAIN_PAGE = '/all-castes_page';
-  static const PROPOSALS_LIST = '/all-proposals';
+  static const CHECKOUT_SCREEN = '/checkout-screen';
+  static const SUCCESS_SCREEN = '/success-screen';
   static const PROPOSALS_DETAIL = '/proposal-detail';
   static const FILTER_SCREEN = '/filter-screen';
   static const EDIT_PROFILE = '/edit-profile';

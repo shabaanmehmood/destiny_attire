@@ -297,6 +297,35 @@ class _MainScreenState extends State<MainScreen> with SingleTickerProviderStateM
       // }
     }
   }
+  successDialog( BuildContext context) {
+
+    return AwesomeDialog(
+        context: context,
+        animType: AnimType.LEFTSLIDE,
+        headerAnimationLoop: false,
+        dialogType: DialogType.SUCCES,
+        dismissOnTouchOutside: false,
+        dismissOnBackKeyPress: false,
+        closeIcon: Container(),
+        // closeIcon: IconButton(icon : Icon(Icons.close, color: ColorsX.light_orange,),onPressed: () {
+        //   Get.back();
+        //   // Get.toNamed(Routes.LOGIN_SCREEN);
+        // },),
+        showCloseIcon: true,
+        title: 'Order Placed',
+        desc:
+        'We will contact you in a few minutes',// \n Save or remember ID to Log In' ,
+        btnOkOnPress: () {
+          debugPrint('OnClcik');
+          Get.back();
+          // Get.toNamed(Routes.ALL_CASTES_MAIN_PAGE);
+        },
+        btnOkIcon: Icons.check_circle,
+        onDissmissCallback: (type) {
+          Get.back();
+        })
+      ..show();
+  }
 
   featuredItem(BuildContext context){
     // int length = byCasteProposalsModel?.serverResponse.length ?? 0;
@@ -375,46 +404,6 @@ class _MainScreenState extends State<MainScreen> with SingleTickerProviderStateM
           );
         }
     );
-  }
-  peofessions(BuildContext context) {
-
-    return ListView.separated(
-      itemCount: GlobalWidgets.professionsList.length,
-        separatorBuilder: (context, index) =>Divider(height: 1, color: ColorsX.light_orange),
-        shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
-        itemBuilder: (context, index){
-          return GestureDetector(
-            onTap: (){
-              GlobalVariables.isCaste = false;
-              print(GlobalWidgets.professionsList[index]);
-              GlobalVariables.valueChosen = GlobalWidgets.professionsList[index];
-              Get.toNamed(Routes.PROPOSALS_LIST);
-            },
-            child: ListTile(
-              leading: CircleAvatar(
-                backgroundColor: ColorsX.yellowColor,
-                child: globalWidgets.myText(context, (index+1).toString(), ColorsX.black, 0, 0, 0, 0, FontWeight.w400, 12),
-              ),
-              title: globalWidgets.myText(context, GlobalWidgets.professionsList[index], ColorsX.white, 0, 0, 0, 0, FontWeight.w700, 15),
-              subtitle: globalWidgets.myText(context, "Find best matches", ColorsX.white, 0, 0, 0, 0, FontWeight.w400, 13),
-              trailing: GestureDetector(
-                onTap: (){
-                  GlobalVariables.isCaste = false;
-                  print(GlobalWidgets.professionsList[index]);
-                  GlobalVariables.valueChosen = GlobalWidgets.professionsList[index];
-                  Get.toNamed(Routes.PROPOSALS_LIST);
-                },
-                child: Container(
-                  height: 25,
-                  width: 25,
-                  child: Image.asset(gender == 'Male' ? 'assets/images/woman.png' : 'assets/images/man.png', fit: BoxFit.contain, ),
-                ),
-              ),
-            ),
-          );
-        });
-
   }
   errorDialog(BuildContext context) {
     return AwesomeDialog(

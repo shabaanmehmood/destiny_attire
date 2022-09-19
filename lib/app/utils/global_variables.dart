@@ -84,6 +84,8 @@ class GlobalVariables {
   static bool isMyProfile = false;
   static String valueChosen = '';
   static String viewAll = '';
+  static String amountPayable = '';
+  static bool isOrderPlaced = false;
   static String categoryChosen = '';
   static String idOfProduct = '';
   static int featuredModelLength = 0;

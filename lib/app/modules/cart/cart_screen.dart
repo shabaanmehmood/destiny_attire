@@ -90,6 +90,11 @@ class _CartScreenState extends State<CartScreen> {
                 ) : buildCartItems(context),
                 GlobalVariables.cartList.isEmpty ? Container() : globalWidgets.myText(context, 'Total Amount To Be Paid', ColorsX.black, 20, 5, 5, 0, FontWeight.w700, 22),
                 GlobalVariables.cartList.isEmpty ? Container() : showTotalAmount(context),
+                SizedBox(height: 30,),
+                GlobalVariables.cartList.isEmpty ? Container() : checkoutButton(context),
+                SizedBox(height: 15,),
+                GlobalVariables.cartList.isEmpty ? Container() : ourLinks(context),
+                SizedBox(height: 30,),
                 // allCategories.isEmpty ? Container() :
                 // showGridView(context),
                 // allCategories.isEmpty ? Container() :ourLinks(context),
@@ -203,7 +208,7 @@ class _CartScreenState extends State<CartScreen> {
                           )),
                         ),
                       globalWidgets.myText(context, 'Amount Payable', ColorsX.greenish, SizeConfig.screenHeight * .05, 0, 5, 0, FontWeight.w500, 15),
-                      amountPayableItem(index, context)
+                      amountPayableItem(index, context),
                     ],
                   ),
                 ],
@@ -343,8 +348,7 @@ class _CartScreenState extends State<CartScreen> {
       debugPrint("${totalAmount}");
     }
     debugPrint(totalAmount.toString());
-    return globalWidgets.myText(context, "PKR ${totalAmount}", ColorsX.black, 15, 0, 0, 0, FontWeight.w700, 20);
-    ;
+    return globalWidgets.myText(context, "PKR ${totalAmount}", ColorsX.black, 15, 0, 0, 0, FontWeight.w700, 20);;
   }
 
   void removeItem( int index, BuildContext context) {
@@ -352,6 +356,29 @@ class _CartScreenState extends State<CartScreen> {
       GlobalVariables.cartList.removeAt(index);
     });
     debugPrint("new array" + GlobalVariables.cartList.toString());
+  }
+
+  checkoutButton(BuildContext context) {
+    return GestureDetector(
+      onTap: (){
+        Get.toNamed(Routes.CHECKOUT_SCREEN);
+      },
+      child: Container(
+        width: SizeConfig.screenWidth,
+        margin: EdgeInsets.only(left: 10, right: 10),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+          color: ColorsX.black,
+        ),
+        child: Align(
+          alignment: Alignment.center,
+          child: Padding(
+            padding: EdgeInsets.symmetric(vertical: 15.0),
+            child: globalWidgets.myText(context, "Continue to Checkout", ColorsX.white, 0, 0, 0, 0, FontWeight.w600, 17),
+          ),
+        ),
+      ),
+    );
   }
 
 }

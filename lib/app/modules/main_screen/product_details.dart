@@ -309,6 +309,7 @@ class _ProductDetailsState extends State<ProductDetails>{
         cartMap["sale_price"] = int.parse(fetchDoc?["sale_price"]);
         cartMap["amount_payable"] = int.parse(fetchDoc?["sale_price"]);
         cartMap["quantity"] = 1;
+        cartMap["category"] = fetchDoc?['category'];
         setState(() {
           GlobalVariables.cartList.add(cartMap);
         });

@@ -234,7 +234,9 @@ class LoginScreen extends StatelessWidget {
       //parsing of data to save in shared preferences
       for (var doc in querySnapshot.docs) {
         // Getting data directly
-        Get.toNamed(Routes.MAIN_SCREEN);
+        String full_name = doc.get('full_name');
+        String email = doc.get('email');
+        saveDataInLocal(full_name, email);
 
         // String religion = doc.get('religion');
         // String caste = doc.get('caste');
@@ -269,29 +271,13 @@ class LoginScreen extends StatelessWidget {
       ..show();
   }
 
-  Future<void> saveDataInLocal(String id, String caste, String religion, String subcaste,
-      String sect, String account_created_at, String mother_tongue, String phone, String gender) async {
+  Future<void> saveDataInLocal(String full_name, String email) async {
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('id', "${id}");
-    prefs.setString('caste', "${caste}");
-    prefs.setString('subcaste', "${subcaste}");
-    prefs.setString('religion', "${religion}");
-    prefs.setString('sect', "${sect}");
-    prefs.setString('account_created_at', "${account_created_at}");
-    prefs.setString('mother_tongue', "${mother_tongue}");
-    prefs.setString('phone', "${phone}");
-    prefs.setString('gender', "${gender}");
-
-    print(prefs.getString('id'));
-    print(prefs.getString('caste'));
-    print(prefs.getString('subcaste'));
-    print(prefs.getString('religion'));
-    print(prefs.getString('sect'));
-    print(prefs.getString('account_created_at'));
-    print(prefs.getString('mother_tongue'));
-    print(prefs.getString('phone'));
-    print(prefs.getString('gender'));
+    prefs.setString('full_name', "${full_name}");
+    prefs.setString('email', "${email}");
+    print(prefs.getString('full_name'));
+    print(prefs.getString('email'));
     Get.toNamed(Routes.MAIN_SCREEN);
   }
 
