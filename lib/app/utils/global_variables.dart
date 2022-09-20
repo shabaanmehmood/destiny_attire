@@ -88,6 +88,7 @@ class GlobalVariables {
   static bool isOrderPlaced = false;
   static String categoryChosen = '';
   static String idOfProduct = '';
+  static String idOfOrder = '';
   static int featuredModelLength = 0;
   static var webView_url = '';
   static var cartList = [];

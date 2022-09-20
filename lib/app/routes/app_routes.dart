@@ -22,6 +22,7 @@ abstract class Routes {
   static const CHECKOUT_SCREEN = _Paths.CHECKOUT_SCREEN;
   static const SUCCESS_SCREEN = _Paths.SUCCESS_SCREEN;
   static const LARGE_IMAGE = _Paths.LARGE_IMAGE;
+  static const MY_ORDERS = _Paths.MY_ORDERS;
   static const PROPOSALS_DETAIL = _Paths.PROPOSALS_DETAIL;
   static const FILTER_SCREEN = _Paths.FILTER_SCREEN;
   static const EDIT_PROFILE = _Paths.EDIT_PROFILE;
@@ -46,6 +47,7 @@ abstract class _Paths {
   static const CHECKOUT_SCREEN = '/checkout-screen';
   static const SUCCESS_SCREEN = '/success-screen';
   static const LARGE_IMAGE = '/large-image';
+  static const MY_ORDERS = '/my-orders';
   static const PROPOSALS_DETAIL = '/proposal-detail';
   static const FILTER_SCREEN = '/filter-screen';
   static const EDIT_PROFILE = '/edit-profile';

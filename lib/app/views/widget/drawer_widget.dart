@@ -34,7 +34,9 @@ class DrawerWidget extends StatelessWidget {
                   SizeConfig.screenWidth * .70, height: SizeConfig.screenHeight*.25,
                   fit: BoxFit.cover,),
               ),
-              _createDrawerItem(Icons.featured_play_list_outlined, 'Request for Featured', context),
+              _createDrawerItem(Icons.production_quantity_limits, 'All Products', context),
+              _createDrawerItem(Icons.category_outlined, 'All Categories', context),
+              _createDrawerItem(Icons.history, 'My Orders', context),
               Divider(
                 color: ColorsX.white,
               ),
@@ -48,14 +50,14 @@ class DrawerWidget extends StatelessWidget {
               Divider(
                 color: ColorsX.white,
               ),
-              _createDrawerItem(Icons.edit, 'Edit Profile', context),
-              Divider(
-                color: ColorsX.white,
-              ),
-              _createDrawerItem(Icons.edit, 'My Profile', context),
-              Divider(
-                color: ColorsX.white,
-              ),
+              // _createDrawerItem(Icons.edit, 'Edit Profile', context),
+              // Divider(
+              //   color: ColorsX.white,
+              // ),
+              // _createDrawerItem(Icons.edit, 'My Profile', context),
+              // Divider(
+              //   color: ColorsX.white,
+              // ),
               _createDrawerItem(Icons.share_rounded, 'Share with Friends', context),
               _createDrawerItem(Icons.bug_report, 'Report an issue', context),
               Divider(
@@ -79,16 +81,28 @@ class DrawerWidget extends StatelessWidget {
   _createDrawerItem(IconData icon, String text, BuildContext context) {
     return GestureDetector(
       onTap: () async {
-        if(text=='Filter'){
+        // if(text=='Filter'){
+        //
+        //   Get.toNamed(Routes.FILTER_SCREEN);
+        //   Get.back();
+        //   // Get.toNamed(Routes.FAMILY_INFORMATION);
+        // }
+        if(text=='All Products'){
 
-          Get.toNamed(Routes.FILTER_SCREEN);
+          GlobalVariables.viewAll = 'Products';
+          Get.toNamed(Routes.ALL_FEATURED);
           Get.back();
           // Get.toNamed(Routes.FAMILY_INFORMATION);
         }
-        if(text=='Edit Profile'){
-
-          Get.toNamed(Routes.EDIT_PROFILE);
+        if(text== "All Categories"){
           Get.back();
+          GlobalVariables.viewAll = 'Categories';
+          Get.toNamed(Routes.ALL_CATEGORIES);
+          // Get.toNamed(Routes.FAMILY_INFORMATION);
+        }
+        if(text== "My Orders"){
+          Get.back();
+          Get.toNamed(Routes.MY_ORDERS);
           // Get.toNamed(Routes.FAMILY_INFORMATION);
         }
         if(text== "Privacy Policy"){
@@ -97,49 +111,43 @@ class DrawerWidget extends StatelessWidget {
           Get.toNamed(Routes.PRIVACY_POLICY);
           // Get.toNamed(Routes.FAMILY_INFORMATION);
         }
-        if(text== "Terms & Conditions"){
-          Get.back();
-          GlobalVariables.webView_url = "http://rishtaaasan.000webhostapp.com/terms.html";
-          Get.toNamed(Routes.TERMS_CONDITIONS);
-          // Get.toNamed(Routes.FAMILY_INFORMATION);
-        }
-        if(text=='Request for Featured'){
-
-          Get.toNamed(Routes.EDIT_PROFILE);
-          Get.back();
-          // Get.toNamed(Routes.FAMILY_INFORMATION);
-        }
+        // if(text=='Request for Featured'){
+        //
+        //   Get.toNamed(Routes.EDIT_PROFILE);
+        //   Get.back();
+        //   // Get.toNamed(Routes.FAMILY_INFORMATION);
+        // }
         if(text=='Report an issue'){
 
           Get.toNamed(Routes.EDIT_PROFILE);
           Get.back();
           // Get.toNamed(Routes.FAMILY_INFORMATION);
         }
-        if(text=='My Profile'){
-          GlobalVariables.isMyProfile = true;
-          Get.toNamed(Routes.PROPOSALS_DETAIL);
-          Get.back();
-          // Get.toNamed(Routes.FAMILY_INFORMATION);
-        }
+        // if(text=='My Profile'){
+        //   GlobalVariables.isMyProfile = true;
+        //   Get.toNamed(Routes.PROPOSALS_DETAIL);
+        //   Get.back();
+        //   // Get.toNamed(Routes.FAMILY_INFORMATION);
+        // }
         if(text=='Share with Friends'){
           Get.back();
-          Share.share('This is an amazing app to find best match for your marriage. You should at least try once by creating your profile. https://play.google.com/store/apps/details?id=com.epopiah.destiny_attire');
+          Share.share('This is an amazing app to find best clothes and dresses. You should at least try once . https://play.google.com/store/apps/details?id=com.epopiah.destiny_attire');
         }
-        if(text=='Logout'){
-
-          SharedPreferences prefs = await SharedPreferences.getInstance();
-          prefs.setString('id', '');
-          prefs.setString('caste', '');
-          prefs.setString('subcaste', '');
-          prefs.setString('religion', '');
-          prefs.setString('sect', '');
-          prefs.setString('account_created_at', '');
-          prefs.setString('mother_tongue', '');
-          prefs.setString('phone', '');
-          prefs.setString('gender', '');
-          Get.back();
-          Get.toNamed(Routes.LOGIN_SCREEN);
-        }
+        // if(text=='Logout'){
+        //
+        //   SharedPreferences prefs = await SharedPreferences.getInstance();
+        //   prefs.setString('id', '');
+        //   prefs.setString('caste', '');
+        //   prefs.setString('subcaste', '');
+        //   prefs.setString('religion', '');
+        //   prefs.setString('sect', '');
+        //   prefs.setString('account_created_at', '');
+        //   prefs.setString('mother_tongue', '');
+        //   prefs.setString('phone', '');
+        //   prefs.setString('gender', '');
+        //   Get.back();
+        //   Get.toNamed(Routes.LOGIN_SCREEN);
+        // }
 
       },
       child: Container(
@@ -148,9 +156,21 @@ class DrawerWidget extends StatelessWidget {
            leading: Icon(icon, color: ColorsX.white,),
            title: globalWidgets.myText(context, text, ColorsX.white, 0, 2, 0, 0, FontWeight.w600, 16),
            onTap: () async {
-             if(text == "Filter"){
+             if(text == "All Products"){
                Get.back();
-               Get.toNamed(Routes.FILTER_SCREEN);
+               GlobalVariables.viewAll = 'Products';
+               Get.toNamed(Routes.ALL_FEATURED);
+               // Get.toNamed(Routes.FAMILY_INFORMATION);
+             }
+             if(text == "All Categories"){
+               Get.back();
+               GlobalVariables.viewAll = 'Categories';
+               Get.toNamed(Routes.ALL_CATEGORIES);
+               // Get.toNamed(Routes.FAMILY_INFORMATION);
+             }
+             if(text == "My Orders"){
+               Get.back();
+               Get.toNamed(Routes.MY_ORDERS);
                // Get.toNamed(Routes.FAMILY_INFORMATION);
              }
              if(text== "Privacy Policy"){
@@ -165,47 +185,47 @@ class DrawerWidget extends StatelessWidget {
                Get.toNamed(Routes.TERMS_CONDITIONS);
                // Get.toNamed(Routes.FAMILY_INFORMATION);
              }
-             if(text== "Edit Profile"){
-               Get.back();
-               Get.toNamed(Routes.EDIT_PROFILE);
-               // Get.toNamed(Routes.FAMILY_INFORMATION);
-             }
-             if(text== "Request for Featured"){
-               Get.back();
-               Get.toNamed(Routes.EDIT_PROFILE);
-               // Get.toNamed(Routes.FAMILY_INFORMATION);
-             }
+             // if(text== "Edit Profile"){
+             //   Get.back();
+             //   Get.toNamed(Routes.EDIT_PROFILE);
+             //   // Get.toNamed(Routes.FAMILY_INFORMATION);
+             // }
+             // if(text== "Request for Featured"){
+             //   Get.back();
+             //   Get.toNamed(Routes.EDIT_PROFILE);
+             //   // Get.toNamed(Routes.FAMILY_INFORMATION);
+             // }
              if(text== "Report an issue"){
                Get.back();
                Get.toNamed(Routes.EDIT_PROFILE);
                // Get.toNamed(Routes.FAMILY_INFORMATION);
              }
-             if(text== "My Profile"){
-               Get.back();
-               GlobalVariables.isMyProfile = true;
-               getId(context);
-               Get.toNamed(Routes.PROPOSALS_DETAIL);
-               // Get.toNamed(Routes.FAMILY_INFORMATION);
-             }
+             // if(text== "My Profile"){
+             //   Get.back();
+             //   GlobalVariables.isMyProfile = true;
+             //   getId(context);
+             //   Get.toNamed(Routes.PROPOSALS_DETAIL);
+             //   // Get.toNamed(Routes.FAMILY_INFORMATION);
+             // }
              if(text== "Share with Friends"){
                Get.back();
                Share.share('This is an amazing app to find best match for your marriage. You should at least try once by creating your profile. https://play.google.com/store/apps/details?id=com.epopiah.destiny_attire');
              }
-             if(text== "Logout"){
-
-               SharedPreferences prefs = await SharedPreferences.getInstance();
-               prefs.setString('id', '');
-               prefs.setString('caste', '');
-               prefs.setString('subcaste', '');
-               prefs.setString('religion', '');
-               prefs.setString('sect', '');
-               prefs.setString('account_created_at', '');
-               prefs.setString('mother_tongue', '');
-               prefs.setString('phone', '');
-               prefs.setString('gender', '');
-               Get.back();
-               Get.toNamed(Routes.LOGIN_SCREEN);
-             }
+             // if(text== "Logout"){
+             //
+             //   SharedPreferences prefs = await SharedPreferences.getInstance();
+             //   prefs.setString('id', '');
+             //   prefs.setString('caste', '');
+             //   prefs.setString('subcaste', '');
+             //   prefs.setString('religion', '');
+             //   prefs.setString('sect', '');
+             //   prefs.setString('account_created_at', '');
+             //   prefs.setString('mother_tongue', '');
+             //   prefs.setString('phone', '');
+             //   prefs.setString('gender', '');
+             //   Get.back();
+             //   Get.toNamed(Routes.LOGIN_SCREEN);
+             // }
            },
          ),
       ),

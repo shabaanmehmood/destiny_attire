@@ -28,15 +28,15 @@ class _SuccessScreenState extends State<SuccessScreen> {
       child: Scaffold(
         key: _scaffoldKey,
         body: body(context),
-        drawer: DrawerWidget(context),
+        // drawer: DrawerWidget(context),
         appBar: AppBar(
           backgroundColor: const Color(0xffEEEEEE).withOpacity(0.8),
           centerTitle: true,
           title: Image.asset('assets/images/logo.png', height: 40, width: 50,),
-          leading: IconButton(
-            icon: Icon(Icons.menu_rounded, color: ColorsX.black,),
-            onPressed: () => _scaffoldKey.currentState?.openDrawer(), //Scaffold.of(context).openDrawer(),
-          ),
+          // leading: IconButton(
+          //   icon: Icon(Icons.menu_rounded, color: ColorsX.black,),
+          //   onPressed: () => _scaffoldKey.currentState?.openDrawer(), //Scaffold.of(context).openDrawer(),
+          // ),
         ),
         // floatingActionButton: new FloatingActionButton(
         //   backgroundColor: ColorsX.black,

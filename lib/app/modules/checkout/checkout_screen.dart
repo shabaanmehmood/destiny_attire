@@ -373,7 +373,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     orderInfo["address"] = addressCtl.text.toString();
     orderInfo["amount_payable"] = GlobalVariables.amountPayable;
     orderInfo["city"] = cityCtl.text.toString();
-    if(cityCtl.text.toString() == 'Lahore' || cityCtl.text.toString() == 'lahore') {
+    if(cityCtl.text.toString().trim() == 'Lahore' || cityCtl.text.toString().trim() == 'lahore') {
       orderInfo["delivery_charges"] = 0;
     }
     else {
@@ -382,9 +382,13 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     orderInfo["email"] = prefs.getString('email');
     orderInfo["full_name"] = prefs.getString('full_name');
     orderInfo["order_string"] = orderStringList;
-    DateTime now = DateTime.now();
-    String formattedDate = DateFormat('kk:mm:ss \n EEE d MMM yy').format(now);
-    orderInfo["date_time"] = formattedDate;
+    var now = DateTime.now();
+    var formatterDate = DateFormat('dd/MM/yy');
+    var formatterTime = DateFormat('kk:mm');
+    String actualDate = formatterDate.format(now);
+    String actualTime = formatterTime.format(now);
+    orderInfo["date"] = actualDate;
+    orderInfo["time"] = actualTime;
     GlobalWidgets.showProgressLoader('Please wait');
     var collection = FirebaseFirestore.instance.collection('orders');
     var docRef = await collection.add(orderInfo);

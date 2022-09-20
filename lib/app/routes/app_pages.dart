@@ -1,4 +1,5 @@
 
+import 'package:destiny_attire/app/modules/authentication/my_orders.dart';
 import 'package:destiny_attire/app/modules/authentication/register_now.dart';
 import 'package:destiny_attire/app/modules/cart/cart_screen.dart';
 import 'package:destiny_attire/app/modules/checkout/checkout_screen.dart';
@@ -76,10 +77,10 @@ class AppPages {
       name: _Paths.SUCCESS_SCREEN,
       page: () => SuccessScreen(),
     ),
-    // GetPage(
-    //   name: _Paths.EDIT_PROFILE,
-    //   page: () => EditProfile(),
-    // ),
+    GetPage(
+      name: _Paths.MY_ORDERS,
+      page: () => MyOrders(),
+    ),
     // GetPage(
     //   name: _Paths.PRIVACY_POLICY,
     //   page: () => WebViewClass(),
