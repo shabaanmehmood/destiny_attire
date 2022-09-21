@@ -93,6 +93,8 @@ class _CartScreenState extends State<CartScreen> {
                 SizedBox(height: 30,),
                 GlobalVariables.cartList.isEmpty ? Container() : checkoutButton(context),
                 SizedBox(height: 15,),
+                GlobalVariables.cartList.isEmpty ? Container() : continueShopping(context),
+                SizedBox(height: 15,),
                 GlobalVariables.cartList.isEmpty ? Container() : ourLinks(context),
                 SizedBox(height: 30,),
                 // allCategories.isEmpty ? Container() :
@@ -149,6 +151,29 @@ class _CartScreenState extends State<CartScreen> {
           ),
           Container(),
         ],
+      ),
+    );
+  }
+
+  continueShopping(BuildContext context) {
+    return GestureDetector(
+      onTap: (){
+        Get.back();
+      },
+      child: Container(
+        width: SizeConfig.screenWidth,
+        margin: EdgeInsets.only(left: 10, right: 10),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+          color: ColorsX.black,
+        ),
+        child: Align(
+          alignment: Alignment.center,
+          child: Padding(
+            padding: EdgeInsets.symmetric(vertical: 15.0),
+            child: globalWidgets.myText(context, "Continue Shopping", ColorsX.white, 0, 0, 0, 0, FontWeight.w600, 17),
+          ),
+        ),
       ),
     );
   }

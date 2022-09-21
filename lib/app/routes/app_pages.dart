@@ -73,10 +73,10 @@ class AppPages {
       name: _Paths.CHECKOUT_SCREEN,
       page: () => CheckoutScreen(),
     ),
-    GetPage(
-      name: _Paths.SUCCESS_SCREEN,
-      page: () => SuccessScreen(),
-    ),
+    // GetPage(
+    //   name: _Paths.SUCCESS_SCREEN,
+    //   page: () => SuccessScreen(),
+    // ),
     GetPage(
       name: _Paths.MY_ORDERS,
       page: () => MyOrders(),

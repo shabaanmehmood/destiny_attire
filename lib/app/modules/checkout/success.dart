@@ -8,8 +8,8 @@ import '../../utils/global_widgets.dart';
 import '../../utils/size_config.dart';
 import '../../views/widget/drawer_widget.dart';
 class SuccessScreen extends StatefulWidget {
-  const SuccessScreen({Key? key}) : super(key: key);
-
+  final String orderId;
+  SuccessScreen(this.orderId);
   @override
   _SuccessScreenState createState() => _SuccessScreenState();
 }
@@ -87,7 +87,11 @@ class _SuccessScreenState extends State<SuccessScreen> {
               SizedBox(height: 15,),
               Align(
                 alignment: Alignment.center,
-                child: FaIcon(FontAwesomeIcons.firstOrder, color: ColorsX.greenish,),
+                child: Icon(Icons.done, color: ColorsX.greenish,),
+              ),
+              Align(
+                alignment: Alignment.center,
+                child: globalWidgets.myText(context, 'Order Id ${widget.orderId}', ColorsX.black.withOpacity(0.6), 20, 15, 0, 0, FontWeight.w600, 23),
               ),
               Align(
                 alignment: Alignment.center,

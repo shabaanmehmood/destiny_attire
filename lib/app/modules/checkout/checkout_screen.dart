@@ -1,5 +1,6 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:destiny_attire/app/modules/checkout/success.dart';
 import 'package:destiny_attire/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -398,6 +399,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     setState(() {
       GlobalVariables.cartList = [];
     });
-    Get.toNamed(Routes.SUCCESS_SCREEN);
+    Navigator.of(context).push(MaterialPageRoute(builder:(context)=>SuccessScreen(documentId)));
+    // Get.toNamed(Routes.SUCCESS_SCREEN);
   }
 }
