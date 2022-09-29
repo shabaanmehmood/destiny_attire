@@ -439,6 +439,12 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     GlobalWidgets.showProgressLoader("Please Wait");
     final res = await _apiService.sendNotification(apiParams: userInfo);
     GlobalWidgets.hideProgressLoader();
-    Navigator.of(context).push(MaterialPageRoute(builder:(context)=>SuccessScreen(orderId)));
+
+    var now = DateTime.now();
+    var formatterDate = DateFormat('dd/MM/yy');
+    var formatterTime = DateFormat('kk:mm');
+    String actualDate = formatterDate.format(now);
+    String actualTime = formatterTime.format(now);
+    Navigator.of(context).push(MaterialPageRoute(builder:(context)=>SuccessScreen(orderId,cityCtl.text,addressCtl.text,actualDate, actualTime)));
   }
 }

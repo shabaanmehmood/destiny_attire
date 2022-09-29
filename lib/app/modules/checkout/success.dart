@@ -1,6 +1,8 @@
+import 'package:destiny_attire/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 
 import '../../utils/cache_data.dart';
 import '../../utils/colors.dart';
@@ -9,7 +11,11 @@ import '../../utils/size_config.dart';
 import '../../views/widget/drawer_widget.dart';
 class SuccessScreen extends StatefulWidget {
   final String orderId;
-  SuccessScreen(this.orderId);
+  final String city;
+  final String address;
+  final String actualDate;
+  final String actualTime;
+  SuccessScreen(this.orderId, this.city, this.address, this.actualDate, this.actualTime);
   @override
   _SuccessScreenState createState() => _SuccessScreenState();
 }
@@ -81,22 +87,65 @@ class _SuccessScreenState extends State<SuccessScreen> {
               Align(
                 alignment: Alignment.center,
                 child: Container(
-                    margin: EdgeInsets.only(top: SizeConfig.screenHeight * .12),
-                    child: Image.asset('assets/images/logo.png', height: 200, width: 200,)),
+                    margin: EdgeInsets.only(top: SizeConfig.screenHeight * .10),
+                    child: Image.asset('assets/images/logo.png', height: 140, width: 140,)),
               ),
               SizedBox(height: 15,),
               Align(
                 alignment: Alignment.center,
-                child: Icon(Icons.done, color: ColorsX.greenish,),
+                child: Icon(Icons.done, color: ColorsX.greenish, size: 30,),
               ),
               Align(
                 alignment: Alignment.center,
-                child: globalWidgets.myText(context, 'Order Id ${widget.orderId}', ColorsX.black.withOpacity(0.6), 20, 15, 0, 0, FontWeight.w600, 23),
+                child: globalWidgets.myText(context, 'Order Placed Successfully', ColorsX.black, 20, 15, 0, 0, FontWeight.w600, 23),
               ),
-              Align(
-                alignment: Alignment.center,
-                child: globalWidgets.myText(context, 'Order Placed Successfully', ColorsX.greenish, 20, 15, 0, 0, FontWeight.w600, 23),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(child: globalWidgets.myText(context, 'Order Id:', ColorsX.black.withOpacity(0.6), 8, 15, 0, 0, FontWeight.w600, 15),),
+                  Expanded(child: globalWidgets.myText(context, '${widget.orderId}', ColorsX.black.withOpacity(0.6), 8, 15, 20, 0, FontWeight.w600, 15),),
+                ],
               ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(child: globalWidgets.myText(context, 'City:', ColorsX.black.withOpacity(0.6), 8, 15, 0, 0, FontWeight.w600, 15),),
+                  Expanded(child: globalWidgets.myText(context, '${widget.city}', ColorsX.black.withOpacity(0.6), 8, 15, 20, 0, FontWeight.w600, 15),),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(child: globalWidgets.myText(context, 'Address:', ColorsX.black.withOpacity(0.6), 8, 15, 0, 0, FontWeight.w600, 15),),
+                  Expanded(child: globalWidgets.myText(context, '${widget.address}', ColorsX.black.withOpacity(0.6), 8, 15, 20, 0, FontWeight.w600, 15),),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: globalWidgets.myText(context, 'Date:', ColorsX.black.withOpacity(0.6), 8, 15, 0, 0, FontWeight.w600, 15),
+                  ),
+                  Expanded(
+                      child: globalWidgets.myText(context, '${widget.actualDate}', ColorsX.black.withOpacity(0.6), 8, 15, 20, 0, FontWeight.w600, 15),
+                    ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: globalWidgets.myText(context, 'Time:', ColorsX.black.withOpacity(0.6), 8, 15, 0, 0, FontWeight.w600, 15),
+                  ),
+                  Expanded(
+                    child: globalWidgets.myText(context, '${widget.actualTime}', ColorsX.black.withOpacity(0.6), 8, 15, 20, 0, FontWeight.w600, 15),
+                  ),
+                      ],
+              ),
+              // Align(
+              //   alignment: Alignment.center,
+              //   child: globalWidgets.myText(context, 'Order Id: ${widget.orderId}', ColorsX.black.withOpacity(0.6), 20, 15, 0, 0, FontWeight.w600, 15),
+              // ),
               Align(
                 alignment: Alignment.center,
                 child: globalWidgets.myText(context, 'Thank you for placing order !', ColorsX.black, 20, 15, 0, 0, FontWeight.w600, 18),
@@ -105,9 +154,34 @@ class _SuccessScreenState extends State<SuccessScreen> {
                 alignment: Alignment.center,
                 child: globalWidgets.myText(context, 'We will contact you in a few minutes', ColorsX.black, 20, 15, 0, 0, FontWeight.w600, 18),
               ),
+              SizedBox(height: 25,),
+              continueShopping(context),
+              SizedBox(height: 25,),
             ],
           ),
         ],
+      ),
+    );
+  }
+  continueShopping(BuildContext context) {
+    return GestureDetector(
+      onTap: (){
+        Get.toNamed(Routes.MAIN_SCREEN);
+      },
+      child: Container(
+        width: SizeConfig.screenWidth,
+        margin: EdgeInsets.only(left: 10, right: 10),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+          color: ColorsX.black,
+        ),
+        child: Align(
+          alignment: Alignment.center,
+          child: Padding(
+            padding: EdgeInsets.symmetric(vertical: 15.0),
+            child: globalWidgets.myText(context, "Continue Shopping", ColorsX.white, 0, 0, 0, 0, FontWeight.w600, 17),
+          ),
+        ),
       ),
     );
   }
