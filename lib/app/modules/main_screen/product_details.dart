@@ -3,6 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:destiny_attire/app/utils/global_variables.dart';
+import 'package:destiny_attire/app/views/widget/floating_action_button.dart';
 import 'package:destiny_attire/app/views/widget/large_image.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -22,44 +23,70 @@ class ProductDetails extends StatefulWidget {
   _ProductDetailsState createState() => _ProductDetailsState();
 }
 
-class _ProductDetailsState extends State<ProductDetails>{
+class _ProductDetailsState extends State<ProductDetails> with SingleTickerProviderStateMixin{
 
   GlobalWidgets globalWidgets = GlobalWidgets();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   CacheData cacheData = CacheData();
   DocumentSnapshot? documentSnapshot;
   Map<String, dynamic>? fetchDoc;
+  bool alreadyAdded = false;
+  AnimationController? _animationController;
+  Animation? animation;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    GlobalVariables.cartListContainsItem = [];
     getProductDetails();
+    _animationController =
+        AnimationController(vsync: this, duration: Duration(seconds: 1));
+    animation = ColorTween(begin: Colors.red, end: Colors.amber)
+        .animate(_animationController!);
+    _animationController?.repeat();
+    _animationController?.addListener(() {
+      setState(() {});
+    });
   }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: _scaffoldKey,
-      body: body(context),
-      drawer: DrawerWidget(context),
-      appBar: AppBar(
-        backgroundColor: const Color(0xffEEEEEE).withOpacity(0.8),
-        centerTitle: true,
-        title: Image.asset('assets/images/logo.png', height: 40, width: 50,),
-        leading: IconButton(
-          icon: Icon(Icons.menu_rounded, color: ColorsX.black,),
-          onPressed: () => _scaffoldKey.currentState?.openDrawer(), //Scaffold.of(context).openDrawer(),
+    checkIfProductAlreadyAddedInTheCart();
+    return WillPopScope(
+      onWillPop: () async{
+        _animationController?.stop();
+        Get.back();
+        return false;
+      },
+      child: Scaffold(
+        key: _scaffoldKey,
+        body: body(context),
+        drawer: DrawerWidget(context),
+        appBar: AppBar(
+          backgroundColor: const Color(0xffEEEEEE).withOpacity(0.8),
+          centerTitle: true,
+          title: Image.asset('assets/images/logo.png', height: 40, width: 50,),
+          leading: IconButton(
+            icon: Icon(Icons.menu_rounded, color: ColorsX.black,),
+            onPressed: () => _scaffoldKey.currentState?.openDrawer(), //Scaffold.of(context).openDrawer(),
+          ),
         ),
-      ),
-      floatingActionButton: new FloatingActionButton(
-        backgroundColor: ColorsX.black,
-        onPressed: () => cartOpen(context),
-        tooltip: 'Cart',
-        child: FaIcon(FontAwesomeIcons.shoppingCart, color: ColorsX.white,),
+        floatingActionButton: new FloatingActionButton(
+          backgroundColor: GlobalVariables.cartList.isEmpty ? ColorsX.black : animation?.value,
+          onPressed: () => cartOpen(context),
+          tooltip: 'Cart',
+          child: FaIcon(FontAwesomeIcons.shoppingCart, color: ColorsX.white,),
+        ),
       ),
     );
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+    _animationController?.stop();
+    _animationController?.dispose();
+  }
   body(BuildContext context) {
     return Container(
       height: SizeConfig.screenHeight,
@@ -102,7 +129,7 @@ class _ProductDetailsState extends State<ProductDetails>{
           ),
 
           documentSnapshot == null ? Container() : Container(
-            child: globalWidgets.myText(context, "${fetchDoc?['category']}", ColorsX.blue_gradient_dark, 0, 20, 5, 0, FontWeight.w700, 15),
+            child: globalWidgets.myText(context, "${fetchDoc?['category']}", ColorsX.black.withOpacity(0.6), 0, 20, 5, 0, FontWeight.w700, 15),
           ),
           fetchDoc?['is_available'] == '0' ? outOfStock(context) : Container(),
           documentSnapshot == null ? Container() : savePrice(context),
@@ -114,18 +141,34 @@ class _ProductDetailsState extends State<ProductDetails>{
                 child: globalWidgets.cutText(context, "PKR${fetchDoc?['cut_price']}", ColorsX.red_danger, 10, 20, 5, 0, FontWeight.w700, 18),
               ),
               Container(
-                child: globalWidgets.myText(context, "PKR${fetchDoc?['sale_price']}", ColorsX.blue_gradient_dark, 10, 20, 5, 0, FontWeight.w700, 18),
+                child: globalWidgets.myText(context, "PKR${fetchDoc?['sale_price']}", ColorsX.greenish, 10, 20, 5, 0, FontWeight.w700, 18),
               ),
+              Expanded(child: Container()),
+              fetchDoc?['discount'] == '0' ? Container() :
+              Container(
+                margin: EdgeInsets.only(top: 10),
+                  child: Icon(Icons.done, color: ColorsX.black,)
+              ),
+              fetchDoc?['discount'] == '0' ? Container() :
+              globalWidgets.myText(context, "-${fetchDoc?['discount']}% off", ColorsX.greenish, 10, 5, 15, 0, FontWeight.w700, 18),
+
             ],
           ),
           documentSnapshot == null ? Container() : Container(
-            child: globalWidgets.myText(context, "${fetchDoc?['short_description']}", ColorsX.black.withOpacity(0.6), 10, 20, 5, 0, FontWeight.w700, 15),
+            child: globalWidgets.myText(context, "${fetchDoc?['short_description']}", ColorsX.black.withOpacity(0.6), 10, 20, 5, 0, FontWeight.w400, 16),
           ),
           documentSnapshot == null ? Container() : Container(
-            child: globalWidgets.myText(context, "${fetchDoc?['long_description']}", ColorsX.black.withOpacity(0.8), 10, 20, 5, 0, FontWeight.w700, 15),
+            child: globalWidgets.myText(context, "${fetchDoc?['long_description']}", ColorsX.black.withOpacity(0.8), 10, 20, 5, 0, FontWeight.w700, 16),
           ),
-          SizedBox(height: 20,),
+          GlobalVariables.cartListContainsItem.contains(fetchDoc?['product_name']) ?
+          Container() : SizedBox(height: 20,),
           documentSnapshot == null ? Container() : addToCartButton(context),
+          SizedBox(height: 20,),
+          documentSnapshot == null ? Container() :
+          GlobalVariables.cartListContainsItem.contains(fetchDoc?['product_name']) ?
+          Container(
+            child: globalWidgets.myText(context, "This item is already added to your cart", ColorsX.greenish.withOpacity(0.8), 0, 20, 5, 0, FontWeight.w400, 16),
+          ) : Container(),
           documentSnapshot == null ? Container() :ourLinks(context),
           Container(
             margin: EdgeInsets.only(bottom: SizeConfig.screenHeight * .02),
@@ -276,6 +319,7 @@ class _ProductDetailsState extends State<ProductDetails>{
     int cutPrice = int.parse(_cutPrice);
     int? newValue = cutPrice - salePrice;
     return Container(
+      margin: EdgeInsets.only(top: 5),
       decoration: BoxDecoration(
         color: ColorsX.greenish,
       ),
@@ -295,11 +339,32 @@ class _ProductDetailsState extends State<ProductDetails>{
     );
   }
 
+  checkIfProductAlreadyAddedInTheCart(){
+    if(GlobalVariables.cartList.isNotEmpty){
+      for(int index = 0; index < GlobalVariables.cartList.length; index++){
+        Map <String, dynamic> myMap = GlobalVariables.cartList[index];
+        if (myMap["product_name"] == fetchDoc?["product_name"]){
+          setState(() {
+            alreadyAdded = true;
+            GlobalVariables.cartListContainsItem.add(fetchDoc?["product_name"]);
+          });
+        }
+        //value not exists
+        else{
+          alreadyAdded = false;
+        }
+      }
+    }else{
+      setState(() {
+        alreadyAdded = false;
+      });
+    }
+  }
   cartOpen(BuildContext context) {
     Get.toNamed(Routes.CART);
   }
   addToCartButton(BuildContext context) {
-    return GestureDetector(
+    return GlobalVariables.cartListContainsItem.contains(fetchDoc?['product_name']) ? Container() : GestureDetector(
       onTap: (){
         Map<String,dynamic> cartMap = new Map();
         cartMap["product_name"]= fetchDoc?['product_name'];
@@ -313,6 +378,7 @@ class _ProductDetailsState extends State<ProductDetails>{
           GlobalVariables.cartList.add(cartMap);
         });
         debugPrint(GlobalVariables.cartList.toString());
+        _animationController?.stop();
         Get.back();
       },
       child: Container(

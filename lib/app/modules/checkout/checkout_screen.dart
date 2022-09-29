@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../services/api.dart';
 import '../../utils/cache_data.dart';
 import '../../utils/colors.dart';
 import '../../utils/global_variables.dart';
@@ -399,7 +400,45 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     setState(() {
       GlobalVariables.cartList = [];
     });
-    Navigator.of(context).push(MaterialPageRoute(builder:(context)=>SuccessScreen(documentId)));
     // Get.toNamed(Routes.SUCCESS_SCREEN);
+    sendNotification(context, documentId);
+  }
+  sendNotification(BuildContext context, String orderId) async{
+    var tokens = [];
+    String token = '';
+    final QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('admins')
+        .where('role', isEqualTo: 'Super Admin')
+        .where('email', isEqualTo: 'shabaan.mehmood@gmail.com')
+        .limit(1)
+        .get();
+
+    final List<DocumentSnapshot> documents = querySnapshot.docs;
+    if(documents.isEmpty) {
+      debugPrint("no super admin");
+    }
+    else {
+      print(documents.first);
+
+      String id = querySnapshot.docs[0].reference.id;
+      //parsing of data to save in shared preferences
+      for (var doc in querySnapshot.docs) {
+        // Getting data directly
+        token = doc.get('token');
+        tokens.add(token);
+      }
+    }
+
+    var _apiService = ApiService();
+
+    Map<String, dynamic> userInfo = Map();
+
+    userInfo['id'] = token;
+    userInfo['order_id'] = orderId;
+
+    GlobalWidgets.showProgressLoader("Please Wait");
+    final res = await _apiService.sendNotification(apiParams: userInfo);
+    GlobalWidgets.hideProgressLoader();
+    Navigator.of(context).push(MaterialPageRoute(builder:(context)=>SuccessScreen(orderId)));
   }
 }

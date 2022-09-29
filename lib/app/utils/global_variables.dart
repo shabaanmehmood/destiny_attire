@@ -92,4 +92,5 @@ class GlobalVariables {
   static int featuredModelLength = 0;
   static var webView_url = '';
   static var cartList = [];
+  static var cartListContainsItem = [];
 }

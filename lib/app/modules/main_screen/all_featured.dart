@@ -20,12 +20,14 @@ class AllFeatured extends StatefulWidget {
   _AllFeaturedState createState() => _AllFeaturedState();
 }
 
-class _AllFeaturedState extends State<AllFeatured> {
+class _AllFeaturedState extends State<AllFeatured> with SingleTickerProviderStateMixin {
 
   GlobalWidgets globalWidgets = GlobalWidgets();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   CacheData cacheData = CacheData();
   List<DocumentSnapshot> allProducts = [];
+  AnimationController? _animationController;
+  Animation? animation;
   @override
   void initState() {
     // TODO: implement initState
@@ -38,27 +40,48 @@ class _AllFeaturedState extends State<AllFeatured> {
       debugPrint(GlobalVariables.viewAll);
       loadAllProducts();
     }
+    _animationController =
+        AnimationController(vsync: this, duration: Duration(seconds: 1));
+    animation = ColorTween(begin: Colors.red, end: Colors.amber)
+        .animate(_animationController!);
+    _animationController?.repeat();
+    _animationController?.addListener(() {
+      setState(() {});
+    });
+  }
+  @override
+  void dispose() {
+    super.dispose();
+    _animationController?.stop();
+    _animationController?.dispose();
   }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: _scaffoldKey,
-      body: body(context),
-      drawer: DrawerWidget(context),
-      appBar: AppBar(
-        backgroundColor: const Color(0xffEEEEEE).withOpacity(0.8),
-        centerTitle: true,
-        title: Image.asset('assets/images/logo.png', height: 40, width: 50,),
-        leading: IconButton(
-          icon: Icon(Icons.menu_rounded, color: ColorsX.black,),
-          onPressed: () => _scaffoldKey.currentState?.openDrawer(), //Scaffold.of(context).openDrawer(),
+    return WillPopScope(
+      onWillPop: () async{
+        _animationController?.stop();
+        Get.back();
+        return false;
+      },
+      child: Scaffold(
+        key: _scaffoldKey,
+        body: body(context),
+        drawer: DrawerWidget(context),
+        appBar: AppBar(
+          backgroundColor: const Color(0xffEEEEEE).withOpacity(0.8),
+          centerTitle: true,
+          title: Image.asset('assets/images/logo.png', height: 40, width: 50,),
+          leading: IconButton(
+            icon: Icon(Icons.menu_rounded, color: ColorsX.black,),
+            onPressed: () => _scaffoldKey.currentState?.openDrawer(), //Scaffold.of(context).openDrawer(),
+          ),
         ),
-      ),
-      floatingActionButton: new FloatingActionButton(
-        backgroundColor:ColorsX.black,
-        onPressed: () => cartOpen(context),
-        tooltip: 'Cart',
-        child: FaIcon(FontAwesomeIcons.shoppingCart, color: ColorsX.white,),
+        floatingActionButton: new FloatingActionButton(
+          backgroundColor: GlobalVariables.cartList.isEmpty ? ColorsX.black : animation?.value,
+          onPressed: () => cartOpen(context),
+          tooltip: 'Cart',
+          child: FaIcon(FontAwesomeIcons.shoppingCart, color: ColorsX.white,),
+        ),
       ),
     );
   }
@@ -350,14 +373,30 @@ class _AllFeaturedState extends State<AllFeatured> {
                         child: globalWidgets.myTextCustom(context, "${allProducts?[index].get('short_description')}", ColorsX.black.withOpacity(0.4), 0, 10, 5, 0, FontWeight.w600, 12),
                       ),
                     ),
-                    GestureDetector(
-                      onTap: (){
-                        debugPrint(allProducts?[index].get('product_name'));
-                        GlobalVariables.imagesListOfSpecificProduct = allProducts?[index].get('images');
-                        GlobalVariables.idOfProduct = "${allProducts?[index].reference.id}";
-                        Get.toNamed(Routes.PRODUCTS_DETAIL);
-                      },
-                      child: globalWidgets.cutText(context, "PKR ${allProducts?[index].get('cut_price')}", ColorsX.red_danger, 0, 10, 5, 0, FontWeight.w300, 15),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        GestureDetector(
+                          onTap: (){
+                            debugPrint(allProducts?[index].get('product_name'));
+                            GlobalVariables.imagesListOfSpecificProduct = allProducts?[index].get('images');
+                            GlobalVariables.idOfProduct = "${allProducts?[index].reference.id}";
+                            Get.toNamed(Routes.PRODUCTS_DETAIL);
+                          },
+                          child: globalWidgets.cutText(context, "PKR ${allProducts?[index].get('cut_price')}", ColorsX.red_danger, 0, 10, 5, 0, FontWeight.w300, 15),
+                        ),
+                        SizedBox(width: 5,),
+                        allProducts?[index].get('discount') == '0' ? Container() :
+                        GestureDetector(
+                          onTap: (){
+                            debugPrint(allProducts?[index].get('product_name'));
+                            GlobalVariables.imagesListOfSpecificProduct = allProducts?[index].get('images');
+                            GlobalVariables.idOfProduct = "${allProducts?[index].reference.id}";
+                            Get.toNamed(Routes.PRODUCTS_DETAIL);
+                          },
+                          child: globalWidgets.myText(context, "-${allProducts?[index].get('discount')}%", ColorsX.greenish, 0, 10, 5, 0, FontWeight.w700, 15),
+                        ),
+                      ],
                     ),
                     GestureDetector(
                       onTap: (){

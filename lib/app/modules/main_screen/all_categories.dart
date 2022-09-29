@@ -20,39 +20,63 @@ class AllCategories extends StatefulWidget {
   _AllCategoriesState createState() => _AllCategoriesState();
 }
 
-class _AllCategoriesState extends State<AllCategories> {
+class _AllCategoriesState extends State<AllCategories>  with SingleTickerProviderStateMixin{
 
   GlobalWidgets globalWidgets = GlobalWidgets();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   CacheData cacheData = CacheData();
   List<DocumentSnapshot> allCategories = [];
+  AnimationController? _animationController;
+  Animation? animation;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     loadCategories();
+    _animationController =
+        AnimationController(vsync: this, duration: Duration(seconds: 1));
+    animation = ColorTween(begin: Colors.red, end: Colors.amber)
+        .animate(_animationController!);
+    _animationController?.repeat();
+    _animationController?.addListener(() {
+      setState(() {});
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _animationController?.stop();
+    _animationController?.dispose();
   }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: _scaffoldKey,
-      body: body(context),
-      drawer: DrawerWidget(context),
-      appBar: AppBar(
-        backgroundColor: const Color(0xffEEEEEE).withOpacity(0.8),
-        centerTitle: true,
-        title: Image.asset('assets/images/logo.png', height: 40, width: 50,),
-        leading: IconButton(
-          icon: Icon(Icons.menu_rounded, color: ColorsX.black,),
-          onPressed: () => _scaffoldKey.currentState?.openDrawer(), //Scaffold.of(context).openDrawer(),
+    return WillPopScope(
+      onWillPop: () async{
+        _animationController?.stop();
+        Get.back();
+        return false;
+      },
+      child: Scaffold(
+        key: _scaffoldKey,
+        body: body(context),
+        drawer: DrawerWidget(context),
+        appBar: AppBar(
+          backgroundColor: const Color(0xffEEEEEE).withOpacity(0.8),
+          centerTitle: true,
+          title: Image.asset('assets/images/logo.png', height: 40, width: 50,),
+          leading: IconButton(
+            icon: Icon(Icons.menu_rounded, color: ColorsX.black,),
+            onPressed: () => _scaffoldKey.currentState?.openDrawer(), //Scaffold.of(context).openDrawer(),
+          ),
         ),
-      ),
-      floatingActionButton: new FloatingActionButton(
-        backgroundColor: ColorsX.black,
-        onPressed: () => cartOpen(context),
-        tooltip: 'Cart',
-        child: FaIcon(FontAwesomeIcons.shoppingCart, color: ColorsX.white,),
+        floatingActionButton: new FloatingActionButton(
+          backgroundColor: GlobalVariables.cartList.isEmpty ? ColorsX.black : animation?.value,
+          onPressed: () => cartOpen(context),
+          tooltip: 'Cart',
+          child: FaIcon(FontAwesomeIcons.shoppingCart, color: ColorsX.white,),
+        ),
       ),
     );
   }

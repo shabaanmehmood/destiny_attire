@@ -236,7 +236,8 @@ class LoginScreen extends StatelessWidget {
         // Getting data directly
         String full_name = doc.get('full_name');
         String email = doc.get('email');
-        saveDataInLocal(full_name, email);
+        String token = doc.get('token');
+        saveDataInLocal(context,full_name, email, token, id);
 
         // String religion = doc.get('religion');
         // String caste = doc.get('caste');
@@ -271,14 +272,40 @@ class LoginScreen extends StatelessWidget {
       ..show();
   }
 
-  Future<void> saveDataInLocal(String full_name, String email) async {
+  Future<void> saveDataInLocal(BuildContext context, String full_name, String email, String tokenSavedOnServer, String id) async {
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('full_name', "${full_name}");
     prefs.setString('email', "${email}");
-    print(prefs.getString('full_name'));
-    print(prefs.getString('email'));
-    Get.toNamed(Routes.MAIN_SCREEN);
+    String? tokenGeneratedByApp = prefs.getString('token');
+    if(tokenGeneratedByApp == tokenSavedOnServer){
+      prefs.setString('token', "${tokenSavedOnServer}");
+      print(prefs.getString('full_name'));
+      print(prefs.getString('email'));
+      Get.toNamed(Routes.MAIN_SCREEN);
+    }
+    else{
+      debugPrint(id);
+      prefs.setString('token', "${tokenGeneratedByApp}");
+      updateToken(tokenGeneratedByApp, email, context, id);
+
+      print(prefs.getString('full_name'));
+      print(prefs.getString('email'));
+      Get.toNamed(Routes.MAIN_SCREEN);
+    }
+  }
+
+  Future<void> updateToken(String? tokenGeneratedByApp, String email, BuildContext context, String id) async {
+
+    GlobalWidgets.showProgressLoader("Please wait");
+
+    var collection = await FirebaseFirestore.instance.collection('users');
+    await collection
+        .doc(id)
+        .update({'token' : tokenGeneratedByApp}) // <-- Updated data
+        .then((_) => print('Success'))
+        .catchError((error) => print('Failed: $error'));
+    GlobalWidgets.hideProgressLoader();
   }
 
 }

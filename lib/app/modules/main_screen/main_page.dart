@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:destiny_attire/app/views/widget/categories.dart';
 import 'package:destiny_attire/app/views/widget/featured_item.dart';
+import 'package:destiny_attire/app/views/widget/floating_action_button.dart';
 import 'package:destiny_attire/app/views/widget/products.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -37,7 +38,6 @@ class _MainScreenState extends State<MainScreen> with SingleTickerProviderStateM
   List<DocumentSnapshot> featuredProducts = [];
   List<DocumentSnapshot> allCategories = [];
   List<DocumentSnapshot> allProducts = [];
-  String? gender = '';
   SharedPreferences? prefs;
   AnimationController? _animationController;
   Animation? animation;

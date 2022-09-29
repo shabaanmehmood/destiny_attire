@@ -52,8 +52,13 @@ class Products extends StatelessWidget {
                           width: SizeConfig.screenWidth * .35,
                           child: globalWidgets.myTextCustom(context, "${documents?[index].get('short_description')}", ColorsX.black.withOpacity(0.4), 0, 10, 5, 0, FontWeight.w600, 12),
                         ),
-
-                        globalWidgets.cutText(context, "PKR ${documents?[index].get('cut_price')}", ColorsX.red_danger, 0, 10, 5, 0, FontWeight.w300, 15),
+                        Row(
+                          children: [
+                            globalWidgets.cutText(context, "PKR ${documents?[index].get('cut_price')}", ColorsX.red_danger, 0, 10, 5, 0, FontWeight.w300, 15),
+                            documents?[index].get('discount') == '0' ? Container() :
+                            globalWidgets.myText(context, "-${documents?[index].get('discount')}%", ColorsX.greenish, 0, 10, 5, 0, FontWeight.w700, 15),
+                          ],
+                        ),
                         globalWidgets.myText(context, "PKR ${documents?[index].get('sale_price')}", ColorsX.black, 0, 10, 5, 0, FontWeight.w600, 15),
 
                       ],

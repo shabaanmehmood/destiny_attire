@@ -64,14 +64,28 @@ class ItemCardForFeatured extends StatelessWidget {
                             child: globalWidgets.myTextCustom(context, "${documents?[index].get('short_description')}", ColorsX.black.withOpacity(0.4), 0, 10, 5, 0, FontWeight.w600, 12),
                           ),
                         ),
-                        GestureDetector(
-                          onTap: (){
-                            debugPrint(documents?[index].get('product_name'));
-                            GlobalVariables.imagesListOfSpecificProduct = documents?[index].get('images');
-                            GlobalVariables.idOfProduct = "${documents?[index].reference.id}";
-                            Get.toNamed(Routes.PRODUCTS_DETAIL);
-                          },
-                          child: globalWidgets.cutText(context, "PKR ${documents?[index].get('cut_price')}", ColorsX.red_danger, 0, 10, 5, 0, FontWeight.w300, 15),
+                        Row(
+                          children: [
+                            GestureDetector(
+                              onTap: (){
+                                debugPrint(documents?[index].get('product_name'));
+                                GlobalVariables.imagesListOfSpecificProduct = documents?[index].get('images');
+                                GlobalVariables.idOfProduct = "${documents?[index].reference.id}";
+                                Get.toNamed(Routes.PRODUCTS_DETAIL);
+                              },
+                              child: globalWidgets.cutText(context, "PKR ${documents?[index].get('cut_price')}", ColorsX.red_danger, 0, 10, 5, 0, FontWeight.w300, 15),
+                            ),
+                            documents?[index].get('discount') == '0' ? Container() :
+                            GestureDetector(
+                              onTap: (){
+                                debugPrint(documents?[index].get('product_name'));
+                                GlobalVariables.imagesListOfSpecificProduct = documents?[index].get('images');
+                                GlobalVariables.idOfProduct = "${documents?[index].reference.id}";
+                                Get.toNamed(Routes.PRODUCTS_DETAIL);
+                              },
+                              child: globalWidgets.myText(context, "-${documents?[index].get('discount')}%", ColorsX.greenish, 0, 10, 5, 0, FontWeight.w700, 15),
+                            ),
+                          ],
                         ),
                         GestureDetector(
                           onTap: (){
