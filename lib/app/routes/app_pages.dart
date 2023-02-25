@@ -1,6 +1,7 @@
 
 import 'package:destiny_attire/app/modules/authentication/my_orders.dart';
 import 'package:destiny_attire/app/modules/authentication/register_now.dart';
+import 'package:destiny_attire/app/modules/authentication/report_issue.dart';
 import 'package:destiny_attire/app/modules/cart/cart_screen.dart';
 import 'package:destiny_attire/app/modules/checkout/checkout_screen.dart';
 import 'package:destiny_attire/app/modules/checkout/success.dart';
@@ -72,6 +73,10 @@ class AppPages {
     GetPage(
       name: _Paths.CHECKOUT_SCREEN,
       page: () => CheckoutScreen(),
+    ),
+    GetPage(
+      name: _Paths.EDIT_PROFILE,
+      page: () => ReportIssue(),
     ),
     // GetPage(
     //   name: _Paths.SUCCESS_SCREEN,

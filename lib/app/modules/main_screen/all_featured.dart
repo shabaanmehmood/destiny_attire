@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../routes/app_pages.dart';
 import '../../utils/cache_data.dart';
@@ -148,7 +149,17 @@ class _AllFeaturedState extends State<AllFeatured> with SingleTickerProviderStat
         children: [
           Container(),
           GestureDetector(
-            onTap: (){},
+            onTap: () async {
+              try{
+                await launch(
+                  'https://www.facebook.com/destinyattireonline',
+                  universalLinksOnly: true,
+                );
+              }
+              catch(e){
+                print(e.toString());
+              }
+            },
             child: CircleAvatar(
               child: FaIcon(FontAwesomeIcons.facebookF, color: Colors.white,), // Icon widget changed with FaIcon
               radius: 20.0,
@@ -156,29 +167,39 @@ class _AllFeaturedState extends State<AllFeatured> with SingleTickerProviderStat
             ),
           ),
           GestureDetector(
-            onTap: (){},
+            onTap: () async {
+              try{
+                await launch(
+                  'https://www.instagram.com/destiny.attire/',
+                  universalLinksOnly: true,
+                );
+              }
+              catch(e){
+                print(e.toString());
+              }
+            },
             child: CircleAvatar(
               child: FaIcon(FontAwesomeIcons.instagram, color: Colors.white,), // Icon widget changed with FaIcon
               radius: 20.0,
               // backgroundColor: Colors.cyan
             ),
           ),
-          GestureDetector(
-            onTap: (){},
-            child: CircleAvatar(
-              child: FaIcon(FontAwesomeIcons.twitter, color: Colors.white,), // Icon widget changed with FaIcon
-              radius: 20.0,
-              // backgroundColor: Colors.cyan
-            ),
-          ),
-          GestureDetector(
-            onTap: (){},
-            child: CircleAvatar(
-              child: FaIcon(FontAwesomeIcons.linkedin, color: Colors.white,), // Icon widget changed with FaIcon
-              radius: 20.0,
-              // backgroundColor: Colors.cyan
-            ),
-          ),
+          // GestureDetector(
+          //   onTap: (){},
+          //   child: CircleAvatar(
+          //       child: FaIcon(FontAwesomeIcons.twitter, color: Colors.white,), // Icon widget changed with FaIcon
+          //       radius: 20.0,
+          //       // backgroundColor: Colors.cyan
+          //   ),
+          // ),
+          // GestureDetector(
+          //   onTap: (){},
+          //   child: CircleAvatar(
+          //       child: FaIcon(FontAwesomeIcons.linkedin, color: Colors.white,), // Icon widget changed with FaIcon
+          //       radius: 20.0,
+          //       // backgroundColor: Colors.cyan
+          //   ),
+          // ),
           Container(),
         ],
       ),
