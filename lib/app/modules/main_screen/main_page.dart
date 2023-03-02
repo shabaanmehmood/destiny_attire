@@ -167,18 +167,6 @@ class _MainScreenState extends State<MainScreen> with SingleTickerProviderStateM
           Container(
             margin: EdgeInsets.only(bottom: SizeConfig.screenHeight * .02),
           ),
-          // Align(
-          //   alignment: Alignment.center,
-          //   child: Container(
-          //       margin: EdgeInsets.only(top: SizeConfig.screenHeight * .02, bottom: SizeConfig.screenHeight * .02),
-          //       child: Image.asset('assets/images/logo.png', height: 80, width: 100,)),
-          // ),
-          // globalWidgets.myText(context, 'Matches available for theses professions', ColorsX.white, 0, 10, 0, 0, FontWeight.w400, 13),
-          // // castes(context,),
-          // peofessions(context,),
-          // globalWidgets.myText(context, 'Castes', ColorsX.yellowColor, 20, 10, 0, 0, FontWeight.w700, 20),
-          // globalWidgets.myText(context, 'Matches available for theses castes', ColorsX.white, 0, 10, 0, 0, FontWeight.w400, 13),
-          // castes(context,),
         ],
       ),
     );
@@ -249,53 +237,8 @@ class _MainScreenState extends State<MainScreen> with SingleTickerProviderStateM
           // GlobalVariables.featuredModelLength = featuredModel?.serverResponse.length ?? 0;
           print('all products length' + allProducts.length.toString());
         });
-        // print(documents.first);
-        //
-        // String id = querySnapshot.docs[0].reference.id;
-        // //parsing of data to save in shared preferences
-        // for (var doc in querySnapshot.docs) {
-        //   // Getting data directly
-        //
-        //   String religion = doc.get('religion');
-        //   String caste = doc.get('caste');
-        //   String subcaste = doc.get('subcaste');
-        //   String sect = doc.get('sect');
-        //   String account_created_at = doc.get('account_created_at');
-        //   String mother_tongue = doc.get('mother_tongue');
-        //   String phone = doc.get('primary_phone');
-        //   String gender = doc.get('gender');
-        //   saveDataInLocal(id,caste,religion,subcaste,sect,account_created_at,mother_tongue,phone,gender);
-        //   debugPrint(id);
-        //   // Getting data from map
-        //   // Map<String, dynamic> data = doc.data();
-        //   // int age = data['age'];
-        // }
       }
       GlobalWidgets.hideProgressLoader();
-//     var _apiService = ApiService();
-//     SharedPreferences prefs = await SharedPreferences.getInstance();
-//
-//     Map<String, dynamic> userInfo = Map();
-//
-//     userInfo['caste'] = GlobalVariables.valueChosen;
-//     userInfo['gender'] = prefs.getString('gender');
-//
-//     GlobalWidgets.showProgressLoader("Please Wait");
-//     GlobalWidgets.hideKeyboard(context);
-//     final res = await _apiService.byCaste(apiParams: userInfo);
-//     GlobalWidgets.hideProgressLoader();
-//     if (res is ByCasteProposalsModel) {
-//       setState(() {
-//         byCasteProposalsModel = res;
-//       });
-//       print('hurrah');
-//       // Get.toNamed(Routes.ALL_CASTES_MAIN_PAGE);
-// //show success dialog
-// //        successDialog(GlobalVariables.signUpResponse);
-//     }
-      // else {
-      //   errorDialog(context);
-      // }
     }
   }
   successDialog( BuildContext context) {
@@ -390,17 +333,6 @@ class _MainScreenState extends State<MainScreen> with SingleTickerProviderStateM
                   SizedBox(width: 8.0,),
                 ],
               ),
-              // child: ListTile(
-              //
-              //   leading: CircleAvatar(
-              //     backgroundColor: ColorsX.yellowColor,
-              //     child: globalWidgets.myText(context, (index+1).toString(), ColorsX.black, 0, 0, 0, 0, FontWeight.w400, 12),
-              //   ),
-              //   title: globalWidgets.myText(context, index%2==0 ? "Siddiqui" : "Hashmi Qureshi", ColorsX.yellowColor, 0, 0, 0, 0, FontWeight.w900, 14),
-              //   subtitle: globalWidgets.myText(context, "32 yrs | 5\u00276 \nEngineer | Software Engineer\n"
-              //       "DHA Lahore", ColorsX.white, 0, 0, 0, 0, FontWeight.w400, 13),
-              //   trailing: globalWidgets.myText(context, "16 days ago", ColorsX.white, 0, 0, 0, 0, FontWeight.w400, 13),
-              // ),
             ),
           );
         }
@@ -466,22 +398,6 @@ class _MainScreenState extends State<MainScreen> with SingleTickerProviderStateM
                 // backgroundColor: Colors.cyan
             ),
           ),
-          // GestureDetector(
-          //   onTap: (){},
-          //   child: CircleAvatar(
-          //       child: FaIcon(FontAwesomeIcons.twitter, color: Colors.white,), // Icon widget changed with FaIcon
-          //       radius: 20.0,
-          //       // backgroundColor: Colors.cyan
-          //   ),
-          // ),
-          // GestureDetector(
-          //   onTap: (){},
-          //   child: CircleAvatar(
-          //       child: FaIcon(FontAwesomeIcons.linkedin, color: Colors.white,), // Icon widget changed with FaIcon
-          //       radius: 20.0,
-          //       // backgroundColor: Colors.cyan
-          //   ),
-          // ),
           Container(),
         ],
       ),
